@@ -18,7 +18,8 @@ class CarService {
   
   getCars(): Observable<Car[]> {
   
-    return asyncCache.create(this.http.get('/cars').map(res => res.json()), {
+    const cars$: Observable<Car[]> = this.http.get('/cars').map(res => res.json());
+    return asyncCache.create(cars$, {
       cacheStrategy: this.localStorageStrategy, // cache the data in localstorage
       fromCacheAndReplay: true // this is the special sauce - first emit the data from localstorage, then re-fetch the live data from the API and emit a second time. The async pipe will then re-render and update the UI
     });
