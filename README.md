@@ -76,3 +76,4 @@ interface AsyncCache {
 Extra
 * Set default options
 * Sugar http to just provide `cache: true` as an option or via a request interceptor?
+* Maybe use: https://github.com/jmdobry/CacheFactory
