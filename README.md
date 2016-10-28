@@ -51,8 +51,6 @@ class MyComponent {
 Interfaces
 ```typescript
 interface CacheStrategy {
-
-  constructor(options: any): void;
   
   has(key: string): Observable<any>;
 
@@ -75,3 +73,7 @@ interface AsyncCache {
 }
 
 ```
+
+Extra
+* Set default options
+* Sugar http to just provide `cache: true` as an option or via a request interceptor
