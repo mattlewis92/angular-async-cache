@@ -66,7 +66,7 @@ type GetAsyncValueFunction = () => Observable<any>|Promise<any>;
 
 interface AsyncCache {
 
-  create(getAsyncValue: GetAsyncValueFunction, {cacheStrategy, fromCacheAndReplay}: {cacheStrategy: CacheStrategy, fromCacheAndReplay: boolean}) {}
+  create(getAsyncValue: GetAsyncValueFunction | Observable<any>, {cacheStrategy, fromCacheAndReplay}: {cacheStrategy: CacheStrategy, fromCacheAndReplay: boolean}) {}
 
 }
 
