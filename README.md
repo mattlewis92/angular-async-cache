@@ -49,7 +49,7 @@ class MyComponent {
 ```
 
 Interfaces
-```
+```typescript
 interface CacheStrategy {
 
   constructor(options: any): void;
@@ -65,4 +65,13 @@ interface CacheStrategy {
   clear(): Observable<any>;
 
 }
+
+type GetAsyncValueFunction = () => Observable<any>|Promise<any>;
+
+interface AsyncCache {
+
+  create(getAsyncValue: GetAsyncValueFunction, {cacheStrategy, fromCacheAndReplay}: {cacheStrategy: CacheStrategy, fromCacheAndReplay: boolean}) {}
+
+}
+
 ```
