@@ -76,4 +76,5 @@ interface AsyncCache {
 
 Extra
 * Set default options
-* Sugar http to just provide `cache: true` as an option or via a request interceptor
+* Sugar http to just provide `cache: true` as an option or via a request interceptor?
+* Sugar `asyncCache.create` to provide a lazy observable (won't work for promises though)
