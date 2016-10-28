@@ -18,9 +18,7 @@ class CarService {
   
   getCars(): Observable<Car[]> {
   
-    return asyncCache.create((): Observable<Car[]> => { // get the live data from the API
-      return this.http.get('/cars').map(res => res.json());
-    }, {
+    return asyncCache.create(this.http.get('/cars').map(res => res.json()), {
       cacheStrategy: this.localStorageStrategy, // cache the data in localstorage
       fromCacheAndReplay: true // this is the special sauce - first emit the data from localstorage, then re-fetch the live data from the API and emit a second time. The async pipe will then re-render and update the UI
     });
@@ -77,4 +75,3 @@ interface AsyncCache {
 Extra
 * Set default options
 * Sugar http to just provide `cache: true` as an option or via a request interceptor?
-* Sugar `asyncCache.create` to provide a lazy observable (won't work for promises though)
