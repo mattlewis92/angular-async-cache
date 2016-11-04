@@ -5,7 +5,7 @@ Sample usage
 
 ```typescript
 import { Http } from '@angular/http';
-import { AsyncCache, LocalStorageStrategy, InMemoryStrategy } from 'angular-async-cache';
+import { AsyncCache, LocalStorageStrategy, InMemoryStrategy, AsyncCacheModule } from 'angular-async-cache';
 
 @Injectable()
 class CarService {
@@ -45,6 +45,16 @@ class MyComponent {
 
 }
 
+@NgModule({
+  imports: [
+    AsyncCacheModule.forRoot({
+      cacheStrategy: new LocalStorageStrategy(),
+      fromCacheAndReplay: true
+    })
+  ]
+})
+class MyModule {}
+
 ```
 
 Interfaces
@@ -60,6 +70,8 @@ interface CacheStrategy {
   delete(key: string): Observable<any>;
   
   clear(): Observable<any>;
+  
+  keys(): Observable<any>;
 
 }
 
@@ -72,8 +84,3 @@ interface AsyncCache {
 }
 
 ```
-
-Extra
-* Set default options
-* Sugar http to just provide `cache: true` as an option or via a request interceptor?
-* Maybe use: https://github.com/jmdobry/CacheFactory
