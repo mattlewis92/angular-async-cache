@@ -7,15 +7,15 @@ import { AsyncCachePipe } from './asyncCache.pipe';
 
 export const ASYNC_CACHE_USER_DEFAULTS: OpaqueToken = new OpaqueToken('ASYNC_CACHE_USER_DEFAULTS');
 
-export const memoryDriverFactory: Function = (options: AsyncCacheOptions) => {
+export function memoryDriverFactory(options: AsyncCacheOptions): MemoryDriver {
   return options.driver instanceof MemoryDriver ? options.driver : new MemoryDriver();
 };
 
-export const localStorageDriverFactory: Function = (options: AsyncCacheOptions) => {
-  return options.driver instanceof LocalStorageDriver ? options.driver : new LocalStorageDriver();
+export function localStorageDriverFactory(options: AsyncCacheOptions): LocalStorageDriver {
+  return options.driver instanceof LocalStorageDriver ? <LocalStorageDriver> options.driver : new LocalStorageDriver();
 };
 
-export const cacheOptionDefaultsFactory: Function = (userDefaults) => {
+export function cacheOptionDefaultsFactory(userDefaults: AsyncCacheOptionsInterface): AsyncCacheOptions {
   return new AsyncCacheOptions(userDefaults);
 };
 
