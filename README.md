@@ -1,11 +1,36 @@
-# angular-async-cache
-A simple utility service to help with caching of promises and observables for angular 2.0+
+# angular async cache
+[![Build Status](https://travis-ci.org/mattlewis92/angular-async-cache.svg?branch=master)](https://travis-ci.org/mattlewis92/angular-async-cache)
+[![npm version](https://badge.fury.io/js/angular-async-cache.svg)](http://badge.fury.io/js/angular-async-cache)
+[![devDependency Status](https://david-dm.org/mattlewis92/angular-async-cache/dev-status.svg)](https://david-dm.org/mattlewis92/angular-async-cache#info=devDependencies)
+[![GitHub issues](https://img.shields.io/github/issues/mattlewis92/angular-async-cache.svg)](https://github.com/mattlewis92/angular-async-cache/issues)
+[![GitHub stars](https://img.shields.io/github/stars/mattlewis92/angular-async-cache.svg)](https://github.com/mattlewis92/angular-async-cache/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mattlewis92/angular-async-cache/master/LICENSE)
+
+## Table of contents
+
+- [About](#about)
+- [Installation](#installation)
+- [Documentation](#documentation)
+- [Development](#development)
+- [License](#licence)
+
+## About
+
+A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 2.0+ apps
+
+## Installation
+
+Install through npm:
+```
+npm install --save angular-async-cache
+```
 
 Sample usage
 
 ```typescript
+import { NgModule, Component, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { AsyncCache, LocalStorageDriver, InMemoryDriver, AsyncCacheModule } from 'angular-async-cache';
+import { AsyncCache, LocalStorageDriver, MemoryDriver, AsyncCacheModule } from 'angular-async-cache';
 
 // declare in your module
 @NgModule({
@@ -25,14 +50,14 @@ class CarService {
   constructor(
     private http: Http, 
     private asyncCache: AsyncCache, 
-    private inMemoryDriver: InMemoryDriver
+    private memoryDriver: MemoryDriver
   ) {}
   
   getCars(): Observable<Car[]> {
   
     const cars$: Observable<Car[]> = this.http.get('/cars').map(res => res.json());
     return asyncCache.proxy('/cars', cars$, {
-      driver: this.inMemoryDriver, // override the default and cache the data in memory
+      driver: this.memoryDriver, // override the default and cache the data in memory
     });
   
   }
@@ -59,30 +84,36 @@ class MyComponent {
 
 ```
 
-Interfaces
-```typescript
-interface CacheDriver {
-  
-  has(key: string): Observable<any>;
-
-  get(key: string): Observable<any>;
-
-  set(key: string, value: any): Observable<any>;
-  
-  delete(key: string): Observable<any>;
-  
-  clear(): Observable<any>;
-  
-  keys(): Observable<any>;
-
-}
-
-type GetAsyncValueFunction = () => Promise<any>;
-
-interface AsyncCache {
-
-  proxy(key: string, asyncValue: GetAsyncValueFunction | Observable<any>, {driver, fromCacheAndReplay}: {driver: CacheDriver, fromCacheAndReplay: boolean}) {}
-
-}
-
+### Usage without a module bundler
 ```
+<script src="node_modules/dist/umd/angular-async-cache/angular-async-cache.js"></script>
+<script>
+    // everything is exported angularAsyncCache namespace
+</script>
+```
+
+## Documentation
+All documentation is auto-generated from the source via typedoc and can be viewed here:
+https://mattlewis92.github.io/angular-async-cache/docs/
+
+## Development
+
+### Prepare your environment
+* Install [Node.js](http://nodejs.org/) and NPM (should come with)
+* Install local dev dependencies: `npm install` while current directory is this repo
+
+### Development server
+Run `npm start` to start a development server on port 8000 with auto reload + tests.
+
+### Testing
+Run `npm test` to run tests once or `npm run test:watch` to continually run tests.
+
+### Release
+* Bump the version in package.json (once the module hits 1.0 this will become automatic)
+```bash
+npm run release
+```
+
+## License
+
+MIT
