@@ -36,7 +36,7 @@ import { AsyncCache, LocalStorageDriver, MemoryDriver, AsyncCacheModule } from '
 @NgModule({
   imports: [
     AsyncCacheModule.forRoot({
-      driver: new LocalStorageDriver(),
+      driver: new LocalStorageDriver(), // default cache driver to use. Default in memory. You can also roll your own by implementing the CacheDriver interface
       fromCacheAndReplay: true // this is the special sauce - first emit the data from localstorage, then re-fetch the live data from the API and emit a second time. The async pipe will then re-render and update the UI
     })
   ]
@@ -82,7 +82,7 @@ class MyComponent {
 
 }
 
-// or use the asyncCache pipe in your template
+// alternatively use the asyncCache pipe in your template, this way you also dont need to wrap the observable beforehand
 @Component({
   template: `
     <div *ngFor="let car of cars | asyncCache:'/cars' | async">
@@ -101,18 +101,6 @@ class MyComponent {
 }
 
 ```
-
-### Usage without a module bundler
-```
-<script src="node_modules/dist/umd/angular-async-cache/angular-async-cache.js"></script>
-<script>
-    // everything is exported angularAsyncCache namespace
-</script>
-```
-
-## Documentation
-All documentation is auto-generated from the source via typedoc and can be viewed here:
-https://mattlewis92.github.io/angular-async-cache/docs/
 
 ## Development
 
