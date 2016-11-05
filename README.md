@@ -31,7 +31,7 @@ class CarService {
   getCars(): Observable<Car[]> {
   
     const cars$: Observable<Car[]> = this.http.get('/cars').map(res => res.json());
-    return asyncCache.create(cars$, {
+    return asyncCache.add('/cars', cars$, {
       driver: this.inMemoryDriver, // override the default and cache the data in memory
     });
   
@@ -77,11 +77,11 @@ interface CacheDriver {
 
 }
 
-type GetAsyncValueFunction = () => Observable<any>|Promise<any>;
+type GetAsyncValueFunction = () => Promise<any>;
 
 interface AsyncCache {
 
-  create(getAsyncValue: GetAsyncValueFunction | Observable<any>, {driver, fromCacheAndReplay}: {driver: CacheDriver, fromCacheAndReplay: boolean}) {}
+  add(key: string, asyncValue: GetAsyncValueFunction | Observable<any>, {driver, fromCacheAndReplay}: {driver: CacheDriver, fromCacheAndReplay: boolean}) {}
 
 }
 
