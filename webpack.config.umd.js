@@ -27,19 +27,19 @@ module.exports = {
       commonjs2: 'rxjs/Observer',
       amd: 'rxjs/Observer'
     },
-    'rxjs/observable/merge': {
+    'rxjs/add/observable/merge': {
       root: ['rx', 'Observable', 'merge'],
       commonjs: 'rxjs/observable/merge',
       commonjs2: 'rxjs/observable/merge',
       amd: 'rxjs/observable/merge'
     },
-    'rxjs/observable/of': {
+    'rxjs/add/observable/of': {
       root: ['rx', 'Observable', 'of'],
       commonjs: 'rxjs/observable/of',
       commonjs2: 'rxjs/observable/of',
       amd: 'rxjs/observable/of'
     },
-    'rxjs/observable/fromPromise': {
+    'rxjs/add/observable/fromPromise': {
       root: ['rx', 'Observable', 'fromPromise'],
       commonjs: 'rxjs/observable/fromPromise',
       commonjs2: 'rxjs/observable/fromPromise',

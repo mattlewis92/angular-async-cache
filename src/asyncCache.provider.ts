@@ -9,7 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 import symbolObservable from 'symbol-observable';
 import { AsyncCacheOptions, AsyncCacheOptionsInterface } from './asyncCacheOptions.provider';
 
-type GetPromiseFunction = () => Promise<any>;
+export type GetPromiseFunction = () => Promise<any>;
 
 const isPromise: Function = (fn: any) => fn && typeof fn.then === 'function' && typeof fn.catch === 'function';
 
