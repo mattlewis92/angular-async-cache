@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/mattlewis92/angular-async-cache/compare/v0.1.0...v0.1.1) (2016-11-05)
+
+
+### Bug Fixes
+
+* **aot:** fix aot compilation ([92ac699](https://github.com/mattlewis92/angular-async-cache/commit/92ac699))
+
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2016-11-05)
 
