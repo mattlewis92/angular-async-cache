@@ -82,6 +82,24 @@ class MyComponent {
 
 }
 
+// or use the asyncCache pipe in your template
+@Component({
+  template: `
+    <div *ngFor="let car of cars | asyncCache:'/cars' | async">
+      {{ car.model }}
+    </div>
+  `
+})
+class MyComponent {
+
+  cars: Observable<Car[]>;
+
+  constructor(http: Http) {
+    this.cars = http.get('/cars').map(res => res.json());
+  }
+
+}
+
 ```
 
 ### Usage without a module bundler

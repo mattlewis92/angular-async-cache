@@ -32,7 +32,7 @@ export class AsyncCache {
 
   constructor(private defaults: AsyncCacheOptions) {}
 
-  proxy(key: string, value: Observable<any> | GetPromiseFunction, userOptions: AsyncCacheOptionsInterface = {}): Observable<any> {
+  proxy(cacheKey: string, value: Observable<any> | GetPromiseFunction, userOptions: AsyncCacheOptionsInterface = {}): Observable<any> {
 
     let getAsyncValue: Observable<any>;
     const options: AsyncCacheOptions = Object.assign({}, this.defaults, userOptions);
@@ -52,15 +52,15 @@ export class AsyncCache {
       throw new Error('Value can only be an observable or a promise');
     }
 
-    return anyToObservable(options.driver.has(key)).flatMap(existsInCache => {
+    return anyToObservable(options.driver.has(cacheKey)).flatMap(existsInCache => {
 
       const cacheAndReturnAsyncValue: Function = () => getAsyncValue.flatMap(value => {
-        return anyToObservable(options.driver.set(key, value)).map(() => value);
+        return anyToObservable(options.driver.set(cacheKey, value)).map(() => value);
       });
 
       if (existsInCache) {
 
-        const getCachedValue: Observable<any> = anyToObservable(options.driver.get(key));
+        const getCachedValue: Observable<any> = anyToObservable(options.driver.get(cacheKey));
 
         if (options.fromCacheAndReplay) {
           return Observable.merge(getCachedValue, cacheAndReturnAsyncValue());

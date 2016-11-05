@@ -3,8 +3,12 @@ import { LocalStorageDriver } from './drivers/localStorageDriver.provider';
 import { MemoryDriver } from './drivers/memoryDriver.provider';
 import { AsyncCacheOptions, AsyncCacheOptionsInterface } from './asyncCacheOptions.provider';
 import { AsyncCache } from './asyncCache.provider';
+import { AsyncCachePipe } from './asyncCache.pipe';
 
-@NgModule()
+@NgModule({
+  declarations: [AsyncCachePipe],
+  exports: [AsyncCachePipe]
+})
 export class AsyncCacheModule {
 
   static forRoot(userDefaults?: AsyncCacheOptionsInterface): ModuleWithProviders {
