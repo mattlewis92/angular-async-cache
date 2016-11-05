@@ -5,13 +5,13 @@ Sample usage
 
 ```typescript
 import { Http } from '@angular/http';
-import { AsyncCache, LocalStorageStrategy, InMemoryStrategy, AsyncCacheModule } from 'angular-async-cache';
+import { AsyncCache, LocalStorageDriver, InMemoryDriver, AsyncCacheModule } from 'angular-async-cache';
 
 // declare in your module
 @NgModule({
   imports: [
     AsyncCacheModule.forRoot({
-      cacheStrategy: new LocalStorageStrategy(),
+      driver: new LocalStorageDriver(),
       fromCacheAndReplay: true // this is the special sauce - first emit the data from localstorage, then re-fetch the live data from the API and emit a second time. The async pipe will then re-render and update the UI
     })
   ]
@@ -25,14 +25,14 @@ class CarService {
   constructor(
     private http: Http, 
     private asyncCache: AsyncCache, 
-    private inMemoryStrategy: InMemoryStrategy
+    private inMemoryDriver: InMemoryDriver
   ) {}
   
   getCars(): Observable<Car[]> {
   
     const cars$: Observable<Car[]> = this.http.get('/cars').map(res => res.json());
     return asyncCache.create(cars$, {
-      cacheStrategy: this.inMemoryStrategy, // override the default and cache the data in memory
+      driver: this.inMemoryDriver, // override the default and cache the data in memory
     });
   
   }
@@ -61,7 +61,7 @@ class MyComponent {
 
 Interfaces
 ```typescript
-interface CacheStrategy {
+interface CacheDriver {
   
   has(key: string): Observable<any>;
 
@@ -81,7 +81,7 @@ type GetAsyncValueFunction = () => Observable<any>|Promise<any>;
 
 interface AsyncCache {
 
-  create(getAsyncValue: GetAsyncValueFunction | Observable<any>, {cacheStrategy, fromCacheAndReplay}: {cacheStrategy: CacheStrategy, fromCacheAndReplay: boolean}) {}
+  create(getAsyncValue: GetAsyncValueFunction | Observable<any>, {driver, fromCacheAndReplay}: {driver: CacheDriver, fromCacheAndReplay: boolean}) {}
 
 }
 
