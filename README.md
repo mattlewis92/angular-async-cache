@@ -56,7 +56,7 @@ class CarService {
   getCars(): Observable<Car[]> {
   
     const cars$: Observable<Car[]> = this.http.get('/cars').map(res => res.json());
-    return asyncCache.proxy('/cars', cars$, {
+    return asyncCache.wrap(cars$, '/cars', {
       driver: this.memoryDriver, // override the default and cache the data in memory
     });
   

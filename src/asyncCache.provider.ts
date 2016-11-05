@@ -32,7 +32,7 @@ export class AsyncCache {
 
   constructor(private defaults: AsyncCacheOptions) {}
 
-  proxy(cacheKey: string, value: Observable<any> | GetPromiseFunction, userOptions: AsyncCacheOptionsInterface = {}): Observable<any> {
+  wrap(value: Observable<any> | GetPromiseFunction, cacheKey: string, userOptions: AsyncCacheOptionsInterface = {}): Observable<any> {
 
     let getAsyncValue: Observable<any>;
     const options: AsyncCacheOptions = Object.assign({}, this.defaults, userOptions);

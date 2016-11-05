@@ -20,7 +20,7 @@ describe('async cache', () => {
     describe('cached observable', () => {
 
       it('should return the observables value and cache it for future requests', () => {
-        cache.proxy('foo', Observable.of('bar')).subscribe(value => {
+        cache.wrap(Observable.of('bar'), 'foo').subscribe(value => {
           expect(value).to.equal('bar');
           expect(cacheDriver.get('foo')).to.equal('bar');
         });
@@ -28,13 +28,13 @@ describe('async cache', () => {
 
       it('should use the cached observable value', () => {
         cacheDriver.set('foo', 'bam');
-        cache.proxy('foo', Observable.of('bar')).subscribe(value => {
+        cache.wrap(Observable.of('bar'), 'foo').subscribe(value => {
           expect(value).to.equal('bam');
         });
       });
 
       it('should not cache the result if the observable resulted in an error', () => {
-        cache.proxy('foo', Observable.throw('error')).subscribe(() => '', err => {
+        cache.wrap(Observable.throw('error'), 'foo').subscribe(() => '', err => {
           expect(err).to.equal('error');
           expect(cacheDriver.has('foo')).to.be.false;
         });
@@ -42,7 +42,7 @@ describe('async cache', () => {
 
       it('should return the cached result and then the live value', () => {
         cacheDriver.set('foo', 'bam');
-        cache.proxy('foo', Observable.of('bar'), {fromCacheAndReplay: true}).pairwise().subscribe(values => {
+        cache.wrap(Observable.of('bar'), 'foo', {fromCacheAndReplay: true}).pairwise().subscribe(values => {
           expect(values).to.deep.equal(['bam', 'bar']);
         });
       });
@@ -52,7 +52,7 @@ describe('async cache', () => {
     describe('cached promise', () => {
 
       it('should return the promises value and cache it for future requests', async(() => {
-        cache.proxy('foo', () => Promise.resolve('bar')).subscribe(value => {
+        cache.wrap(() => Promise.resolve('bar'), 'foo').subscribe(value => {
           expect(value).to.equal('bar');
           expect(cacheDriver.get('foo')).to.equal('bar');
         });
@@ -60,13 +60,13 @@ describe('async cache', () => {
 
       it('should use the cached promise value', async(() => {
         cacheDriver.set('foo', 'bam');
-        cache.proxy('foo', () => Promise.resolve('bar')).subscribe(value => {
+        cache.wrap(() => Promise.resolve('bar'), 'foo').subscribe(value => {
           expect(value).to.equal('bam');
         });
       }));
 
       it('should not cache the result if the promise resulted in an error', async(() => {
-        cache.proxy('foo', () => Promise.reject('error')).subscribe(() => '', err => {
+        cache.wrap(() => Promise.reject('error'), 'foo').subscribe(() => '', err => {
           expect(err).to.equal('error');
           expect(cacheDriver.has('foo')).to.be.false;
         });
@@ -74,7 +74,7 @@ describe('async cache', () => {
 
       it('should return the cached result and then the live value', async(() => {
         cacheDriver.set('foo', 'bam');
-        cache.proxy('foo', () => Promise.resolve('bar'), {fromCacheAndReplay: true}).pairwise().subscribe(values => {
+        cache.wrap(() => Promise.resolve('bar'), 'foo', {fromCacheAndReplay: true}).pairwise().subscribe(values => {
           expect(values).to.deep.equal(['bam', 'bar']);
         });
       }));
@@ -82,7 +82,7 @@ describe('async cache', () => {
       it('should not try and resolve the promise value if its in the cache', async(() => {
         cacheDriver.set('foo', 'bam');
         const spy: sinon.SinonStub = sinon.stub().returns(Promise.resolve('bar'));
-        cache.proxy('foo', spy).subscribe(value => {
+        cache.wrap(spy, 'foo').subscribe(value => {
           expect(spy).not.to.have.been.called;
         });
       }));
@@ -90,7 +90,7 @@ describe('async cache', () => {
     });
 
     it('should throw an error when trying to cache a non observable or promise value', () => {
-      expect(() => cache.proxy('foo', <any> 'bar')).to.throw();
+      expect(() => cache.wrap(<any> 'bar', 'foo')).to.throw();
     });
 
   });
@@ -139,7 +139,7 @@ describe('async cache', () => {
     });
 
     it('should get the cached observable value', async(() => {
-      cache.proxy('foo', Observable.of('bam')).subscribe(value => {
+      cache.wrap(Observable.of('bam'), 'foo').subscribe(value => {
         expect(value).to.equal('bar');
       });
     }));
@@ -190,7 +190,7 @@ describe('async cache', () => {
     });
 
     it('should get the cached observable value', async(() => {
-      cache.proxy('foo', Observable.of('bam')).subscribe(value => {
+      cache.wrap(Observable.of('bam'), 'foo').subscribe(value => {
         expect(value).to.equal('bar');
       });
     }));

@@ -11,7 +11,7 @@ export class AsyncCachePipe implements PipeTransform {
   constructor(private asyncCache: AsyncCache) {}
 
   transform(value: Observable<any>, cacheKey: string, options?: AsyncCacheOptionsInterface): Observable<any> {
-    return this.asyncCache.proxy(cacheKey, value, options);
+    return this.asyncCache.wrap(value, cacheKey, options);
   }
 
 }
