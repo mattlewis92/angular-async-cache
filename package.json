@@ -1,6 +1,6 @@
 {
   "name": "angular-async-cache",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 2.0+ apps",
   "main": "./dist/umd/angular-async-cache.js",
   "module": "./dist/esm/src/index.js",
