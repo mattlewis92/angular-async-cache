@@ -67,7 +67,7 @@ class CarService {
 // finally use with the async pipe in your components template
 @Component({
   template: `
-    <div *ngFor="car of cars | async">
+    <div *ngFor="let car of cars | async">
       {{ car.model }}
     </div>
   `
