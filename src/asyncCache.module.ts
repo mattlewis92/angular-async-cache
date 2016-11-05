@@ -1,9 +1,23 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, OpaqueToken } from '@angular/core';
 import { LocalStorageDriver } from './drivers/localStorageDriver.provider';
 import { MemoryDriver } from './drivers/memoryDriver.provider';
 import { AsyncCacheOptions, AsyncCacheOptionsInterface } from './asyncCacheOptions.provider';
 import { AsyncCache } from './asyncCache.provider';
 import { AsyncCachePipe } from './asyncCache.pipe';
+
+export const ASYNC_CACHE_USER_DEFAULTS: OpaqueToken = new OpaqueToken('ASYNC_CACHE_USER_DEFAULTS');
+
+export const memoryDriverFactory: Function = (options: AsyncCacheOptions) => {
+  return options.driver instanceof MemoryDriver ? options.driver : new MemoryDriver();
+};
+
+export const localStorageDriverFactory: Function = (options: AsyncCacheOptions) => {
+  return options.driver instanceof LocalStorageDriver ? options.driver : new LocalStorageDriver();
+};
+
+export const cacheOptionDefaultsFactory: Function = (userDefaults) => {
+  return new AsyncCacheOptions(userDefaults);
+};
 
 @NgModule({
   declarations: [AsyncCachePipe],
@@ -13,18 +27,16 @@ export class AsyncCacheModule {
 
   static forRoot(userDefaults?: AsyncCacheOptionsInterface): ModuleWithProviders {
 
-    const defaults: AsyncCacheOptions = new AsyncCacheOptions(userDefaults);
-    const localStorage: any = defaults.driver instanceof LocalStorageDriver ? defaults.driver : new LocalStorageDriver();
-    const memory: any = defaults.driver instanceof MemoryDriver ? defaults.driver : new MemoryDriver();
-
     return {
       ngModule: AsyncCacheModule,
       providers: [{
-        provide: LocalStorageDriver, useValue: localStorage
+        provide: LocalStorageDriver, useFactory: localStorageDriverFactory, deps: [AsyncCacheOptions]
       }, {
-        provide: MemoryDriver, useValue: memory
+        provide: MemoryDriver, useFactory: memoryDriverFactory, deps: [AsyncCacheOptions]
       }, {
-        provide: AsyncCacheOptions, useValue: defaults
+        provide: ASYNC_CACHE_USER_DEFAULTS, useValue: userDefaults
+      }, {
+        provide: AsyncCacheOptions, useFactory: cacheOptionDefaultsFactory, deps: [ASYNC_CACHE_USER_DEFAULTS]
       }, AsyncCache]
     };
 
