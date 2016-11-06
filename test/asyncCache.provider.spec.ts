@@ -4,7 +4,7 @@ import * as sinon from 'sinon';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/pairwise';
 import 'rxjs/add/observable/throw';
-import { AsyncCacheModule, MemoryDriver, AsyncCache, CacheDriver, AsyncValue } from '../src';
+import { AsyncCacheModule, MemoryDriver, AsyncCache, CacheDriver, AsyncValue, AsyncCacheOptions } from '../src';
 
 describe('async cache', () => {
 
@@ -131,7 +131,8 @@ describe('async cache', () => {
       TestBed.configureTestingModule({
         imports: [
           AsyncCacheModule.forRoot({
-            driver: cacheDriver
+            provide: AsyncCacheOptions,
+            useFactory: () => new AsyncCacheOptions({driver: cacheDriver})
           })
         ]
       });
@@ -182,7 +183,8 @@ describe('async cache', () => {
       TestBed.configureTestingModule({
         imports: [
           AsyncCacheModule.forRoot({
-            driver: cacheDriver
+            provide: AsyncCacheOptions,
+            useFactory: () => new AsyncCacheOptions({driver: cacheDriver})
           })
         ]
       });

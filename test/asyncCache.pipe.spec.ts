@@ -5,6 +5,7 @@ import { expect } from 'chai';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { AsyncCacheModule, MemoryDriver, AsyncCache, AsyncCacheOptions } from '../src';
+import { AsyncCacheOptionsInterface } from '../src/asyncCacheOptions.provider';
 
 describe('asyncCache pipe', () => {
 
@@ -19,7 +20,7 @@ describe('asyncCache pipe', () => {
 
     asyncValue: Observable<any>;
 
-    cacheOptions: AsyncCacheOptions = {
+    cacheOptions: AsyncCacheOptionsInterface = {
       fromCacheAndReplay: true
     };
 

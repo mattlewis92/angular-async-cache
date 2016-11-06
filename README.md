@@ -30,14 +30,21 @@ Sample usage
 ```typescript
 import { NgModule, Component, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { AsyncCache, LocalStorageDriver, MemoryDriver, AsyncCacheModule } from 'angular-async-cache';
+import { AsyncCache, LocalStorageDriver, MemoryDriver, AsyncCacheModule, AsyncCacheOptions } from 'angular-async-cache';
+
+export function asyncCacheOptionsFactory() {
+  return new AsyncCacheOptions({
+    driver: new LocalStorageDriver(), // default cache driver to use. Default in memory. You can also roll your own by implementing the CacheDriver interface
+    fromCacheAndReplay: true // this is the special sauce - first emit the data from localstorage, then re-fetch the live data from the API and emit a second time. The async pipe will then re-render and update the UI
+  });
+}
 
 // declare in your module
 @NgModule({
   imports: [
     AsyncCacheModule.forRoot({
-      driver: new LocalStorageDriver(), // default cache driver to use. Default in memory. You can also roll your own by implementing the CacheDriver interface
-      fromCacheAndReplay: true // this is the special sauce - first emit the data from localstorage, then re-fetch the live data from the API and emit a second time. The async pipe will then re-render and update the UI
+      provide: AsyncCacheOptions,
+      useFactory: asyncCacheOptionsFactory
     })
   ]
 })
