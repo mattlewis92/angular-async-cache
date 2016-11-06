@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/mattlewis92/angular-async-cache/compare/v0.2.0...v0.3.0) (2016-11-06)
+
+
+### Bug Fixes
+
+* throw a helpful error when a non promise returning function is passed ([0e093db](https://github.com/mattlewis92/angular-async-cache/commit/0e093db))
+
+
+### Features
+
+* **cachedHttp:** add the cachedHttp service ([375b0ed](https://github.com/mattlewis92/angular-async-cache/commit/375b0ed))
+
+
+### BREAKING CHANGES
+
+* cachedHttp: @angular/http is now required to use this module
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://github.com/mattlewis92/angular-async-cache/compare/v0.1.2...v0.2.0) (2016-11-06)
 
