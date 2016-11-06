@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.1"></a>
+## [0.3.1](https://github.com/mattlewis92/angular-async-cache/compare/v0.3.0...v0.3.1) (2016-11-06)
+
+
+### Bug Fixes
+
+* **build:** dont bundle http service ([4817833](https://github.com/mattlewis92/angular-async-cache/commit/4817833))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/mattlewis92/angular-async-cache/compare/v0.2.0...v0.3.0) (2016-11-06)
 
