@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptionsArgs } from '@angular/http';
-import { Observable } from 'rxjs/observable';
+import { Observable } from 'rxjs/Observable';
 import { AsyncCache } from './asyncCache.provider';
 import { AsyncCacheOptionsInterface } from './asyncCacheOptions.provider';
 
