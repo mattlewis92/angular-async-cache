@@ -36,14 +36,24 @@ import { AsyncCache, LocalStorageDriver, MemoryDriver, AsyncCacheModule, AsyncCa
 
 export function asyncCacheOptionsFactory(): AsyncCacheOptions {
   return new AsyncCacheOptions({
-    driver: new LocalStorageDriver(), // default cache driver to use. Default in memory. You can also roll your own by implementing the CacheDriver interface
-    fromCacheAndReplay: true // this is the special sauce - first emit the data from localstorage, then re-fetch the live data from the API and emit a second time. The async pipe will then re-render and update the UI
+
+    // Default cache driver to use. Default in memory. 
+    // You can also roll your own by implementing the CacheDriver interface
+    driver: new LocalStorageDriver(),
+
+    // this is the special sauce - first emit the data from localstorage, 
+    // then re-fetch the live data from the API and emit a second time. 
+    // The async pipe will then re-render and update the UI. Default: false
+    fromCacheAndReplay: true
+
   });
 }
 
 // declare in your module
 @NgModule({
   imports: [
+    // this configures the default options. Just using `AsyncCacheModule.forRoot()` will use 
+    // the defaults of an in memory cache and not replaying from the api
     AsyncCacheModule.forRoot({
       provide: AsyncCacheOptions,
       useFactory: asyncCacheOptionsFactory
@@ -65,7 +75,11 @@ class MyComponent {
   cars: Observable<Car[]>;
 
   constructor(private cachedHttp: CachedHttp) {
-    this.cars = this.cachedHttp.get('/cars'); // note how we don't do `.map(res => res.json())` as this is already handled by the cachedHttp service
+    // note how we don't do `.map(res => res.json())` as this is already handled by the cachedHttp service 
+    // only the get method is supported (as other http verbs are destructive)
+    // The second argument can be any options you would pass to a normal http get call
+    // The third argument is a `AsyncCacheOptions` subset
+    this.cars = this.cachedHttp.get('/cars');
   }
 
 }
