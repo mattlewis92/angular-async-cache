@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.0"></a>
+# [0.2.0](https://github.com/mattlewis92/angular-async-cache/compare/v0.1.2...v0.2.0) (2016-11-06)
+
+
+### Bug Fixes
+
+* **aot:** more robust fix for aot compilation ([c34828d](https://github.com/mattlewis92/angular-async-cache/commit/c34828d))
+
+
+### BREAKING CHANGES
+
+* aot: the way the library defaults are configured has changed. See the readme for an
+
+example
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/mattlewis92/angular-async-cache/compare/v0.1.1...v0.1.2) (2016-11-05)
 
