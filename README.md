@@ -25,7 +25,9 @@ Install through npm:
 npm install --save angular-async-cache
 ```
 
-Sample usage
+### Examples
+
+> This setup will first emit the cached data (for faster load times + offline first support), then will find the live data, re-emit it and update the cache for future requests
 
 ```typescript
 import { NgModule, Component, Injectable } from '@angular/core';
@@ -50,7 +52,28 @@ export function asyncCacheOptionsFactory(): AsyncCacheOptions {
 })
 class MyModule {}
 
-// use in your service
+// finally use with the async pipe in your components template
+@Component({
+  template: `
+    <div *ngFor="let car of cars | async">
+      {{ car.model }}
+    </div>
+  `
+})
+class MyComponent {
+
+  cars: Observable<Car[]>;
+
+  constructor(private cachedHttp: CachedHttp) {
+    this.cars = this.cachedHttp.get('/cars'); // note how we don't do `.map(res => res.json())` as this is already handled by the cachedHttp service
+  }
+
+}
+```
+
+> There is also a lower level `AsyncCache` service that you can use to manually control caching of observables or promises
+
+```typescript
 @Injectable()
 class CarService {
 
@@ -70,26 +93,11 @@ class CarService {
   }
 
 }
+```
 
-// finally use with the async pipe in your components template
-@Component({
-  template: `
-    <div *ngFor="let car of cars | async">
-      {{ car.model }}
-    </div>
-  `
-})
-class MyComponent {
+> There is also a pipe you can use to instantiate the caching in your template
 
-  cars: Observable<Car[]>;
-
-  constructor(carService: CarService) {
-    this.cars = carService.getCars();
-  }
-
-}
-
-// alternatively use the asyncCache pipe in your template, this way you also dont need to wrap the observable beforehand
+```typescript
 @Component({
   template: `
     <div *ngFor="let car of cars | asyncCache:'/cars' | async">
@@ -106,19 +114,6 @@ class MyComponent {
   }
 
 }
-
-// there is also a simple wrapper around the http service for making cached requests
-@Injectable()
-class CarService {
-
-  constructor(private cachedHttp: CachedHttp) {}
-
-  getCars(): Observable<Car[]> {
-    return this.cachedHttp.get('/cars'); // note how we don't do `.map(res => res.json())` as this is already handled by the cachedHttp service
-  }
-
-}
-
 ```
 
 ## Development
