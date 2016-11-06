@@ -41,7 +41,11 @@ export class AsyncCache {
       getAsyncValue = <Observable<any>> value;
     } else if (typeof value === 'function') {
       getAsyncValue = Observable.create((observer: Observer<any>) => {
-        value().then(result => {
+        const promise: Promise<any> = value();
+        if (!isPromise(promise)) {
+          return observer.error('The function you passed to the async cache didn\'t return a promise');
+        }
+        promise.then(result => {
           observer.next(result);
           observer.complete();
         }).catch(err => {
@@ -49,7 +53,7 @@ export class AsyncCache {
         });
       });
     } else {
-      throw new Error('Value can only be an observable or a promise');
+      throw new Error('Value can only be an observable or a function that returns a promise');
     }
 
     return anyToObservable(options.driver.has(cacheKey)).flatMap(existsInCache => {

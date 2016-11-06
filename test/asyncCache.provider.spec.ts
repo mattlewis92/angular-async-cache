@@ -87,6 +87,12 @@ describe('async cache', () => {
         });
       }));
 
+      it('should emit an error if the function doesnt return a promise', () => {
+        const error: sinon.SinonSpy = sinon.spy();
+        cache.wrap(<any> (() => 'not a promise'), 'foo').subscribe(() => '', error);
+        expect(error).to.have.been.calledOnce;
+      });
+
     });
 
     it('should throw an error when trying to cache a non observable or promise value', () => {
