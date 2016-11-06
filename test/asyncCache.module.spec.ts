@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { expect } from 'chai';
-import { AsyncCacheModule, LocalStorageDriver } from '../src';
+import { AsyncCacheModule, LocalStorageDriver, MemoryDriver } from '../src';
 import { AsyncCacheOptions } from './../src/asyncCacheOptions.provider';
 
 describe('async cache module', () => {
@@ -28,6 +28,8 @@ describe('async cache module', () => {
       ]
     });
     expect(TestBed.get(AsyncCacheOptions).driver).to.equal(driver);
+    expect(TestBed.get(LocalStorageDriver)).to.equal(driver);
+    expect(TestBed.get(MemoryDriver)).to.be.ok;
   });
 
 });
