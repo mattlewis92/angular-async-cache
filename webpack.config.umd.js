@@ -15,6 +15,12 @@ module.exports = {
       commonjs2: '@angular/core',
       amd: '@angular/core'
     },
+    '@angular/http': {
+      root: ['ng', 'http'],
+      commonjs: '@angular/http',
+      commonjs2: '@angular/http',
+      amd: '@angular/http'
+    },
     'rxjs/Observable': {
       root: ['rx', 'Observable'],
       commonjs: 'rxjs/Observable',
