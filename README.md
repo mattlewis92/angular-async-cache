@@ -30,7 +30,7 @@ Sample usage
 ```typescript
 import { NgModule, Component, Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import { AsyncCache, LocalStorageDriver, MemoryDriver, AsyncCacheModule, AsyncCacheOptions } from 'angular-async-cache';
+import { AsyncCache, LocalStorageDriver, MemoryDriver, AsyncCacheModule, AsyncCacheOptions, CachedHttp } from 'angular-async-cache';
 
 export function asyncCacheOptionsFactory(): AsyncCacheOptions {
   return new AsyncCacheOptions({
@@ -103,6 +103,18 @@ class MyComponent {
 
   constructor(http: Http) {
     this.cars = http.get('/cars').map(res => res.json());
+  }
+
+}
+
+// there is also a simple wrapper around the http service for making cached requests
+@Injectable()
+class CarService {
+
+  constructor(private cachedHttp: CachedHttp) {}
+
+  getCars(): Observable<Car[]> {
+    return this.cachedHttp.get('/cars'); // note how we don't do `.map(res => res.json())` as this is already handled by the cachedHttp service
   }
 
 }

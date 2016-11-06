@@ -40,6 +40,7 @@
     "@angular/compiler": "^2.1.0",
     "@angular/compiler-cli": "^2.1.0",
     "@angular/core": "^2.1.0",
+    "@angular/http": "^2.1.2",
     "@angular/platform-browser": "^2.1.0",
     "@angular/platform-browser-dynamic": "^2.1.0",
     "@types/chai": "^3.4.30",
@@ -81,7 +82,8 @@
     "zone.js": "^0.6.12"
   },
   "peerDependencies": {
-    "@angular/core": "^2.0.0"
+    "@angular/core": "^2.0.0",
+    "@angular/http": "^2.0.0"
   },
   "files": [
     "dist"
