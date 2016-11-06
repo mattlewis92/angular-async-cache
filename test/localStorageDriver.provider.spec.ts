@@ -1,5 +1,6 @@
+import { TestBed } from '@angular/core/testing';
 import { expect } from 'chai';
-import { LocalStorageDriver } from '../src';
+import { LocalStorageDriver, AsyncCacheModule } from '../src';
 
 describe('localStorageDriver', () => {
 
@@ -7,7 +8,8 @@ describe('localStorageDriver', () => {
   beforeEach(() => {
     localStorage.removeItem('async-cache-foo');
     localStorage.removeItem('custom-foo');
-    driver = new LocalStorageDriver();
+    TestBed.configureTestingModule({imports: [AsyncCacheModule.forRoot()]});
+    driver = TestBed.get(LocalStorageDriver);
   });
 
   it('should not have a value', () => {

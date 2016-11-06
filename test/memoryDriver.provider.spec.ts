@@ -1,11 +1,13 @@
+import { TestBed } from '@angular/core/testing';
 import { expect } from 'chai';
-import { MemoryDriver } from '../src';
+import { MemoryDriver, AsyncCacheModule } from '../src';
 
 describe('memoryDriver', () => {
 
   let driver: MemoryDriver;
   beforeEach(() => {
-    driver = new MemoryDriver();
+    TestBed.configureTestingModule({imports: [AsyncCacheModule.forRoot()]});
+    driver = TestBed.get(MemoryDriver);
   });
 
   it('should get, set and delete a value', () => {
