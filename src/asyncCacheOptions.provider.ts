@@ -2,8 +2,13 @@ import { CacheDriver } from './drivers/cacheDriver.interface';
 import { MemoryDriver } from './drivers/memoryDriver.provider';
 
 export interface AsyncCacheOptionsInterface {
+
   driver?: CacheDriver;
+
   fromCacheAndReplay?: boolean;
+
+  bypassCache?: boolean;
+
 }
 
 export class AsyncCacheOptions implements AsyncCacheOptionsInterface {

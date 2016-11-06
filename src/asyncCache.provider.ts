@@ -35,7 +35,7 @@ export class AsyncCache {
   wrap(value: Observable<any> | GetPromiseFunction, cacheKey: string, userOptions: AsyncCacheOptionsInterface = {}): Observable<any> {
 
     let getAsyncValue: Observable<any>;
-    const options: AsyncCacheOptions = Object.assign({}, this.defaults, userOptions);
+    const options: AsyncCacheOptionsInterface = Object.assign({}, this.defaults, userOptions);
 
     if (isObservable(value)) {
       getAsyncValue = <Observable<any>> value;
@@ -62,7 +62,7 @@ export class AsyncCache {
         return anyToObservable(options.driver.set(cacheKey, value)).map(() => value);
       });
 
-      if (existsInCache) {
+      if (existsInCache && !options.bypassCache) {
 
         const getCachedValue: Observable<any> = anyToObservable(options.driver.get(cacheKey));
 

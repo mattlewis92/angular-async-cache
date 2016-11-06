@@ -47,6 +47,14 @@ describe('async cache', () => {
         });
       });
 
+      it('should allow the cache to be bypassed', () => {
+        cacheDriver.set('foo', 'bam');
+        cache.wrap(Observable.of('bar'), 'foo', {bypassCache: true}).subscribe(value => {
+          expect(value).to.equal('bar');
+          expect(cacheDriver.get('foo')).to.equal('bar');
+        });
+      });
+
     });
 
     describe('cached promise', () => {
