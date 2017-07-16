@@ -1,21 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs } from '@angular/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AsyncCache } from './async-cache.provider';
 import { AsyncCacheOptionsInterface } from './async-cache-options.provider';
 
+export interface HttpRequestArgs {
+  headers?: HttpHeaders;
+  params?: HttpParams;
+  reportProgress?: boolean;
+  responseType?: 'json';
+  withCredentials?: boolean;
+}
+
 @Injectable()
 export class CachedHttp {
 
-  constructor(private http: Http, private asyncCache: AsyncCache) {}
+  constructor(private http: HttpClient, private asyncCache: AsyncCache) {}
 
-  get(url: string, options?: RequestOptionsArgs, asyncCacheOptions?: AsyncCacheOptionsInterface): Observable<any> {
+  get(url: string, options?: HttpRequestArgs, asyncCacheOptions?: AsyncCacheOptionsInterface): Observable<any> {
 
-    const result$: Observable<any> = this.http.get(url, options).map(res => res.json());
+    const result$: Observable<any> = this.http.get(url, options);
 
     let cacheKey: string = url;
-    if (options && options.search) {
-      cacheKey += '?' + options.search.toString();
+    if (options && options.params) {
+      cacheKey += '?' + options.params.toString();
     }
 
     return this.asyncCache.wrap(result$, cacheKey, asyncCacheOptions);

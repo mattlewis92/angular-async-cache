@@ -1,5 +1,4 @@
 import { NgModule, ModuleWithProviders, Provider } from '@angular/core';
-import { HttpModule } from '@angular/http';
 import { LocalStorageDriver } from './drivers/local-storage-driver.provider';
 import { MemoryDriver } from './drivers/memory-driver.provider';
 import { AsyncCacheOptions } from './async-cache-options.provider';
@@ -20,7 +19,6 @@ export function cacheOptionFactory(): AsyncCacheOptions {
 }
 
 @NgModule({
-  imports: [HttpModule],
   declarations: [AsyncCachePipe],
   exports: [AsyncCachePipe]
 })
