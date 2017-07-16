@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/mattlewis92/angular-async-cache/compare/v0.4.1...v1.0.0) (2017-07-16)
+
+
+### Features
+
+* **cachedHttp:** use new http client ([406f99d](https://github.com/mattlewis92/angular-async-cache/commit/406f99d))
+
+
+### BREAKING CHANGES
+
+* **cachedHttp:** angular 4.3 or higher is now required to use this library. The new http client is
+now used for cached http requests instead of the @angular/http package
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/mattlewis92/angular-async-cache/compare/v0.4.0...v0.4.1) (2017-03-24)
 
