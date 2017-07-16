@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **cachedHttp:** angular 4.3 or higher is now required to use this library. The new http client is
 now used for cached http requests instead of the @angular/http package
-
+* For System.js users only, the umd path has changed from `angular-async-cache/dist/umd/angular-async-cache.js` to `angular-async-cache/bundles/angular-async-cache.umd.js`
 
 
 <a name="0.4.1"></a>
