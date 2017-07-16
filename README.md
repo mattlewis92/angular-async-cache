@@ -78,7 +78,6 @@ class MyComponent {
   cars: Observable<Car[]>;
 
   constructor(private cachedHttp: CachedHttp) {
-    // note how we don't do `.map(res => res.json())` as this is already handled by the cachedHttp service 
     // only the get method is supported (as other http verbs are destructive)
     // The second argument can be any options you would pass to a normal http get call
     // The third argument is a `AsyncCacheOptions` subset
@@ -102,7 +101,7 @@ class CarService {
   
   getCars(): Observable<Car[]> {
   
-    const cars$: Observable<Car[]> = this.http.get('/cars').map(res => res.json());
+    const cars$: Observable<Car[]> = this.http.get('/cars');
     return asyncCache.wrap(cars$, '/cars', {
       driver: this.memoryDriver, // override the default and cache the data in memory
     });
@@ -127,7 +126,7 @@ class MyComponent {
   cars: Observable<Car[]>;
 
   constructor(http: Http) {
-    this.cars = http.get('/cars').map(res => res.json());
+    this.cars = http.get('/cars');
   }
 
 }
