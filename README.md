@@ -16,7 +16,7 @@
 
 ## About
 
-A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 2.0+ apps
+A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 4.3+ apps
 
 ## Demo
 There is a [demo app here](http://mattlewis92.github.io/angular2-tv-tracker/) that shows the power of this library. Subscribe to some TV shows, turn off your internet and refresh the page and everything should still work (static assets are handled by the fantastic [webpack offline plugin](https://github.com/NekR/offline-plugin))
