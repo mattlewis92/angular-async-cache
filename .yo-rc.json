@@ -1,0 +1,13 @@
+{
+  "generator-angular-library": {
+    "githubUsername": "mattlewis92",
+    "githubRepoName": "angular-async-cache",
+    "npmModuleName": "angular-async-cache",
+    "moduleGlobal": "angularAsyncCache",
+    "ngModuleName": "AsyncCacheModule",
+    "selectorPrefix": "mwl",
+    "projectTitle": "angular async cache",
+    "projectDescription": "A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 2.0+ apps",
+    "authorName": "Matt Lewis"
+  }
+}

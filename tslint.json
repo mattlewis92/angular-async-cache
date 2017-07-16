@@ -1,4 +1,7 @@
 {
+  "rulesDirectory": [
+    "node_modules/codelyzer"
+  ],
   "rules": {
     "class-name": true,
     "curly": false,
@@ -16,15 +19,10 @@
     ],
     "no-arg": true,
     "no-construct": true,
-    "no-duplicate-key": true,
     "no-duplicate-variable": true,
     "no-empty": true,
     "no-eval": true,
     "no-trailing-whitespace": true,
-    "no-unused-expression": true,
-    "no-unused-variable": false,
-    "no-unreachable": true,
-    "no-use-before-declare": true,
     "one-line": [
       true,
       "check-open-brace",
@@ -57,6 +55,24 @@
       "property-declaration",
       "variable-declaration",
       "member-variable-declaration"
-    ]
+    ],
+    "directive-selector": [true, "attribute", "mwl", "camelCase"],
+    "component-selector": [true, "element", "mwl", "kebab-case"],
+    "use-input-property-decorator": true,
+    "use-output-property-decorator": true,
+    "use-host-property-decorator": false,
+    "no-attribute-parameter-decorator": true,
+    "no-input-rename": true,
+    "no-output-rename": true,
+    "no-forward-ref": true,
+    "use-life-cycle-interface": true,
+    "use-pipe-transform-interface": true,
+    "pipe-naming": [false, "camelCase", "mwl"],
+    "component-class-suffix": true,
+    "directive-class-suffix": true,
+    "import-destructuring-spacing": true,
+    "templates-use-public": true,
+    "no-access-missing-member": false,
+    "invoke-injectable": true
   }
 }
