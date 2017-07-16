@@ -1,11 +1,11 @@
 import { NgModule, ModuleWithProviders, Provider } from '@angular/core';
 import { HttpModule } from '@angular/http';
-import { LocalStorageDriver } from './drivers/localStorageDriver.provider';
-import { MemoryDriver } from './drivers/memoryDriver.provider';
-import { AsyncCacheOptions } from './asyncCacheOptions.provider';
-import { AsyncCache } from './asyncCache.provider';
-import { AsyncCachePipe } from './asyncCache.pipe';
-import { CachedHttp } from './cachedHttp.provider';
+import { LocalStorageDriver } from './drivers/local-storage-driver.provider';
+import { MemoryDriver } from './drivers/memory-driver.provider';
+import { AsyncCacheOptions } from './async-cache-options.provider';
+import { AsyncCache } from './async-cache.provider';
+import { AsyncCachePipe } from './async-cache.pipe';
+import { CachedHttp } from './cached-http.provider';
 
 export function memoryDriverFactory(options: AsyncCacheOptions): MemoryDriver {
   return options.driver instanceof MemoryDriver ? options.driver : new MemoryDriver();

@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { AsyncCache } from './asyncCache.provider';
-import { AsyncCacheOptionsInterface } from './asyncCacheOptions.provider';
+import { AsyncCache } from './async-cache.provider';
+import { AsyncCacheOptionsInterface } from './async-cache-options.provider';
 
 @Pipe({
   name: 'asyncCache'

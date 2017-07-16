@@ -4,8 +4,8 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { expect } from 'chai';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-import { AsyncCacheModule, MemoryDriver, AsyncCache, AsyncCacheOptions } from '../src';
-import { AsyncCacheOptionsInterface } from '../src/asyncCacheOptions.provider';
+import { AsyncCacheModule, MemoryDriver, AsyncCache } from '../src';
+import { AsyncCacheOptionsInterface } from '../src/async-cache-options.provider';
 
 describe('asyncCache pipe', () => {
 

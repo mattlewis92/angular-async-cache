@@ -1,4 +1,4 @@
-import { CacheDriver, AsyncValue } from './cacheDriver.interface';
+import { CacheDriver, AsyncValue } from './cache-driver.interface';
 
 const cacheKey: any = Symbol('cache key');
 

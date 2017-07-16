@@ -1,7 +1,7 @@
-export * from './asyncCache.module';
-export * from './drivers/cacheDriver.interface';
-export * from './drivers/localStorageDriver.provider';
-export * from './drivers/memoryDriver.provider';
-export { AsyncCacheOptions } from './asyncCacheOptions.provider';
-export * from './asyncCache.provider';
-export * from './cachedHttp.provider';
+export * from './async-cache.module';
+export * from './drivers/cache-driver.interface';
+export * from './drivers/local-storage-driver.provider';
+export * from './drivers/memory-driver.provider';
+export { AsyncCacheOptions } from './async-cache-options.provider';
+export * from './async-cache.provider';
+export * from './cached-http.provider';

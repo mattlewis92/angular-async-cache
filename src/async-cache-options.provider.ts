@@ -1,5 +1,5 @@
-import { CacheDriver } from './drivers/cacheDriver.interface';
-import { MemoryDriver } from './drivers/memoryDriver.provider';
+import { CacheDriver } from './drivers/cache-driver.interface';
+import { MemoryDriver } from './drivers/memory-driver.provider';
 
 export interface AsyncCacheOptionsInterface {
 

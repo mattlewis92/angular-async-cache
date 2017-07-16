@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { expect } from 'chai';
 import { AsyncCacheModule, LocalStorageDriver, MemoryDriver } from '../src';
-import { AsyncCacheOptions } from './../src/asyncCacheOptions.provider';
+import { AsyncCacheOptions } from '../src/async-cache-options.provider';
 
 describe('async cache module', () => {
 
