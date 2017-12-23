@@ -34,7 +34,7 @@ npm install --save angular-async-cache
 
 ```typescript
 import { NgModule, Component, Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { AsyncCache, LocalStorageDriver, MemoryDriver, AsyncCacheModule, AsyncCacheOptions, CachedHttp } from 'angular-async-cache';
 
 export function asyncCacheOptionsFactory(): AsyncCacheOptions {
@@ -55,6 +55,7 @@ export function asyncCacheOptionsFactory(): AsyncCacheOptions {
 // declare in your module
 @NgModule({
   imports: [
+    HttpClientModule,
     // this configures the default options. Just using `AsyncCacheModule.forRoot()` will use 
     // the defaults of an in memory cache and not replaying from the api
     AsyncCacheModule.forRoot({
