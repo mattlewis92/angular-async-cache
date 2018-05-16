@@ -3,12 +3,11 @@ import { expect } from 'chai';
 import { LocalStorageDriver, AsyncCacheModule } from '../src';
 
 describe('localStorageDriver', () => {
-
   let driver: LocalStorageDriver;
   beforeEach(() => {
     localStorage.removeItem('async-cache-foo');
     localStorage.removeItem('custom-foo');
-    TestBed.configureTestingModule({imports: [AsyncCacheModule.forRoot()]});
+    TestBed.configureTestingModule({ imports: [AsyncCacheModule.forRoot()] });
     driver = TestBed.get(LocalStorageDriver);
   });
 
@@ -49,14 +48,13 @@ describe('localStorageDriver', () => {
   });
 
   it('should be able to save and restore objects', () => {
-    driver.set('foo', {bar: true});
-    expect(driver.get('foo')).to.deep.equal({bar: true});
+    driver.set('foo', { bar: true });
+    expect(driver.get('foo')).to.deep.equal({ bar: true });
   });
 
   it('should allow the cache prefix to be customised', () => {
-    driver = new LocalStorageDriver({keyPrefix: 'custom-'});
+    driver = new LocalStorageDriver({ keyPrefix: 'custom-' });
     driver.set('foo', 'bar');
     expect(localStorage.getItem('custom-foo')).to.deep.equal('"bar"');
   });
-
 });

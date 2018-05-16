@@ -4,13 +4,12 @@ import { AsyncCacheModule, LocalStorageDriver, MemoryDriver } from '../src';
 import { AsyncCacheOptions } from '../src/async-cache-options.provider';
 
 describe('async cache module', () => {
-
   it('should allow the defaults to be customised', () => {
     TestBed.configureTestingModule({
       imports: [
         AsyncCacheModule.forRoot({
           provide: AsyncCacheOptions,
-          useFactory: () => new AsyncCacheOptions({fromCacheAndReplay: true})
+          useFactory: () => new AsyncCacheOptions({ fromCacheAndReplay: true })
         })
       ]
     });
@@ -23,7 +22,7 @@ describe('async cache module', () => {
       imports: [
         AsyncCacheModule.forRoot({
           provide: AsyncCacheOptions,
-          useFactory: () => new AsyncCacheOptions({driver})
+          useFactory: () => new AsyncCacheOptions({ driver })
         })
       ]
     });
@@ -31,5 +30,4 @@ describe('async cache module', () => {
     expect(TestBed.get(LocalStorageDriver)).to.equal(driver);
     expect(TestBed.get(MemoryDriver)).to.be.ok;
   });
-
 });

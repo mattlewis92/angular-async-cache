@@ -14,11 +14,13 @@ export interface HttpRequestArgs {
 
 @Injectable()
 export class CachedHttp {
-
   constructor(private http: HttpClient, private asyncCache: AsyncCache) {}
 
-  get(url: string, options?: HttpRequestArgs, asyncCacheOptions?: AsyncCacheOptionsInterface): Observable<any> {
-
+  get(
+    url: string,
+    options?: HttpRequestArgs,
+    asyncCacheOptions?: AsyncCacheOptionsInterface
+  ): Observable<any> {
     const result$: Observable<any> = this.http.get(url, options);
 
     let cacheKey: string = url;
@@ -27,7 +29,5 @@ export class CachedHttp {
     }
 
     return this.asyncCache.wrap(result$, cacheKey, asyncCacheOptions);
-
   }
-
 }

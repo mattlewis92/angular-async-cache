@@ -3,7 +3,6 @@ import { CacheDriver, AsyncValue } from './cache-driver.interface';
 const cacheKey: any = Symbol('cache key');
 
 export class MemoryDriver implements CacheDriver {
-
   constructor() {
     this[cacheKey] = new Map<string, any>();
   }
@@ -31,5 +30,4 @@ export class MemoryDriver implements CacheDriver {
   keys(): AsyncValue {
     return Array.from(this[cacheKey].keys());
   }
-
 }

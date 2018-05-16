@@ -1,4 +1,5 @@
 # angular async cache
+
 [![Build Status](https://travis-ci.org/mattlewis92/angular-async-cache.svg?branch=master)](https://travis-ci.org/mattlewis92/angular-async-cache)
 [![npm version](https://badge.fury.io/js/angular-async-cache.svg)](http://badge.fury.io/js/angular-async-cache)
 [![devDependency Status](https://david-dm.org/mattlewis92/angular-async-cache/dev-status.svg)](https://david-dm.org/mattlewis92/angular-async-cache#info=devDependencies)
@@ -8,22 +9,24 @@
 
 ## Table of contents
 
-- [About](#about)
-- [Installation](#installation)
-- [Documentation](#documentation)
-- [Development](#development)
-- [License](#licence)
+* [About](#about)
+* [Installation](#installation)
+* [Documentation](#documentation)
+* [Development](#development)
+* [License](#licence)
 
 ## About
 
 A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 4.3+ apps
 
 ## Demo
+
 There is a [demo app here](http://mattlewis92.github.io/angular2-tv-tracker/) that shows the power of this library. Subscribe to some TV shows, turn off your internet and refresh the page and everything should still work (static assets are handled by the fantastic [webpack offline plugin](https://github.com/NekR/offline-plugin))
 
 ## Installation
 
 Install through npm:
+
 ```
 npm install --save angular-async-cache
 ```
@@ -35,20 +38,25 @@ npm install --save angular-async-cache
 ```typescript
 import { NgModule, Component, Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { AsyncCache, LocalStorageDriver, MemoryDriver, AsyncCacheModule, AsyncCacheOptions, CachedHttp } from 'angular-async-cache';
+import {
+  AsyncCache,
+  LocalStorageDriver,
+  MemoryDriver,
+  AsyncCacheModule,
+  AsyncCacheOptions,
+  CachedHttp
+} from 'angular-async-cache';
 
 export function asyncCacheOptionsFactory(): AsyncCacheOptions {
   return new AsyncCacheOptions({
-
-    // Default cache driver to use. Default in memory. 
+    // Default cache driver to use. Default in memory.
     // You can also roll your own by implementing the CacheDriver interface
     driver: new LocalStorageDriver(),
 
-    // this is the special sauce - first emit the data from localstorage, 
-    // then re-fetch the live data from the API and emit a second time. 
+    // this is the special sauce - first emit the data from localstorage,
+    // then re-fetch the live data from the API and emit a second time.
     // The async pipe will then re-render and update the UI. Default: false
     fromCacheAndReplay: true
-
   });
 }
 
@@ -56,7 +64,7 @@ export function asyncCacheOptionsFactory(): AsyncCacheOptions {
 @NgModule({
   imports: [
     HttpClientModule,
-    // this configures the default options. Just using `AsyncCacheModule.forRoot()` will use 
+    // this configures the default options. Just using `AsyncCacheModule.forRoot()` will use
     // the defaults of an in memory cache and not replaying from the api
     AsyncCacheModule.forRoot({
       provide: AsyncCacheOptions,
@@ -75,7 +83,6 @@ class MyModule {}
   `
 })
 class MyComponent {
-
   cars: Observable<Car[]>;
 
   constructor(private cachedHttp: CachedHttp) {
@@ -84,7 +91,6 @@ class MyComponent {
     // The third argument is a `AsyncCacheOptions` subset
     this.cars = this.cachedHttp.get('/cars');
   }
-
 }
 ```
 
@@ -93,22 +99,18 @@ class MyComponent {
 ```typescript
 @Injectable()
 class CarService {
-
   constructor(
-    private http: Http, 
-    private asyncCache: AsyncCache, 
+    private http: Http,
+    private asyncCache: AsyncCache,
     private memoryDriver: MemoryDriver
   ) {}
-  
+
   getCars(): Observable<Car[]> {
-  
     const cars$: Observable<Car[]> = this.http.get('/cars');
     return asyncCache.wrap(cars$, '/cars', {
-      driver: this.memoryDriver, // override the default and cache the data in memory
+      driver: this.memoryDriver // override the default and cache the data in memory
     });
-  
   }
-
 }
 ```
 
@@ -123,29 +125,31 @@ class CarService {
   `
 })
 class MyComponent {
-
   cars: Observable<Car[]>;
 
   constructor(http: Http) {
     this.cars = http.get('/cars');
   }
-
 }
 ```
 
 ## Development
 
 ### Prepare your environment
+
 * Install [Node.js](http://nodejs.org/) and NPM (should come with)
 * Install local dev dependencies: `npm install` while current directory is this repo
 
 ### Development server
+
 Run `npm start` to start a development server on port 8000 with auto reload + tests.
 
 ### Testing
+
 Run `npm test` to run tests once or `npm run test:watch` to continually run tests.
 
 ### Release
+
 ```bash
 npm run release
 ```

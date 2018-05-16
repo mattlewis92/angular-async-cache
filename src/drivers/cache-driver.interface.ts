@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 export type AsyncValue = Observable<any> | Promise<any> | any;
 
 export interface CacheDriver {
-
   has(key: string): AsyncValue;
 
   get(key: string): AsyncValue;
@@ -15,5 +14,4 @@ export interface CacheDriver {
   clear(): AsyncValue;
 
   keys(): AsyncValue;
-
 }

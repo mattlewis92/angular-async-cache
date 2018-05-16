@@ -8,7 +8,6 @@ import { AsyncCacheModule, MemoryDriver, AsyncCache } from '../src';
 import { AsyncCacheOptionsInterface } from '../src/async-cache-options.provider';
 
 describe('asyncCache pipe', () => {
-
   @Component({
     template: `
       <div *ngFor="let value of asyncValue | asyncCache:'test':cacheOptions | async">
@@ -17,7 +16,6 @@ describe('asyncCache pipe', () => {
     `
   })
   class MyComponent {
-
     asyncValue: Observable<any>;
 
     cacheOptions: AsyncCacheOptionsInterface = {
@@ -32,7 +30,6 @@ describe('asyncCache pipe', () => {
         });
       });
     }
-
   }
 
   let cacheDriver: MemoryDriver, cache: AsyncCache;
@@ -47,7 +44,9 @@ describe('asyncCache pipe', () => {
 
   it('should use the cached result first and then the live values', async(() => {
     cacheDriver.set('test', ['foo', 'bar']);
-    const fixture: ComponentFixture<MyComponent> = TestBed.createComponent(MyComponent);
+    const fixture: ComponentFixture<MyComponent> = TestBed.createComponent(
+      MyComponent
+    );
     fixture.detectChanges();
     expect(fixture.nativeElement.innerText).to.equal('foo\nbar');
     setTimeout(() => {
@@ -55,5 +54,4 @@ describe('asyncCache pipe', () => {
       expect(fixture.nativeElement.innerText).to.equal('bar\nbam');
     });
   }));
-
 });

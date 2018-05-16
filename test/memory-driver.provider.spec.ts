@@ -3,10 +3,9 @@ import { expect } from 'chai';
 import { MemoryDriver, AsyncCacheModule } from '../src';
 
 describe('memoryDriver', () => {
-
   let driver: MemoryDriver;
   beforeEach(() => {
-    TestBed.configureTestingModule({imports: [AsyncCacheModule.forRoot()]});
+    TestBed.configureTestingModule({ imports: [AsyncCacheModule.forRoot()] });
     driver = TestBed.get(MemoryDriver);
   });
 
@@ -26,5 +25,4 @@ describe('memoryDriver', () => {
     driver.clear();
     expect(driver.keys()).to.deep.equal([]);
   });
-
 });

@@ -7,8 +7,9 @@ export interface LocalStorageOptions {
 const DEFAULT_KEY_PREFIX: string = 'async-cache-';
 
 export class LocalStorageDriver implements CacheDriver {
-
-  constructor(private options: LocalStorageOptions = {keyPrefix: DEFAULT_KEY_PREFIX}) {}
+  constructor(
+    private options: LocalStorageOptions = { keyPrefix: DEFAULT_KEY_PREFIX }
+  ) {}
 
   has(key: string): AsyncValue {
     return localStorage.hasOwnProperty(this.getInternalKey(key));
@@ -19,7 +20,10 @@ export class LocalStorageDriver implements CacheDriver {
   }
 
   set(key: string, value: any): AsyncValue {
-    return localStorage.setItem(this.getInternalKey(key), JSON.stringify(value));
+    return localStorage.setItem(
+      this.getInternalKey(key),
+      JSON.stringify(value)
+    );
   }
 
   delete(key: string): AsyncValue {
@@ -38,7 +42,9 @@ export class LocalStorageDriver implements CacheDriver {
     for (let i: number = 0; i < localStorage.length; i++) {
       keys.push(localStorage.key(i));
     }
-    return keys.filter(key => key.startsWith(this.options.keyPrefix)).map(key => this.getExternalKey(key));
+    return keys
+      .filter(key => key.startsWith(this.options.keyPrefix))
+      .map(key => this.getExternalKey(key));
   }
 
   private getInternalKey(suffix: string): string {
@@ -48,5 +54,4 @@ export class LocalStorageDriver implements CacheDriver {
   private getExternalKey(key: string): string {
     return key.replace(new RegExp('^' + this.options.keyPrefix), '');
   }
-
 }
