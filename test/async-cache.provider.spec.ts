@@ -1,3 +1,5 @@
+// tslint:disable no-unused-expression max-classes-per-file
+
 import { TestBed, async } from '@angular/core/testing';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
@@ -15,7 +17,8 @@ import {
 
 describe('async cache', () => {
   describe('memory cache', () => {
-    let cacheDriver: MemoryDriver, cache: AsyncCache;
+    let cacheDriver: MemoryDriver;
+    let cache: AsyncCache;
     beforeEach(() => {
       TestBed.configureTestingModule({ imports: [AsyncCacheModule.forRoot()] });
       cacheDriver = TestBed.get(MemoryDriver);
@@ -42,7 +45,7 @@ describe('async cache', () => {
           () => '',
           err => {
             expect(err).to.equal('error');
-            expect(cacheDriver.has('foo')).to.be.false;
+            expect(cacheDriver.has('foo')).to.equal(false);
           }
         );
       });
@@ -88,7 +91,7 @@ describe('async cache', () => {
           () => '',
           err => {
             expect(err).to.equal('error');
-            expect(cacheDriver.has('foo')).to.be.false;
+            expect(cacheDriver.has('foo')).to.equal(false);
           }
         );
       }));
@@ -118,14 +121,14 @@ describe('async cache', () => {
       it('should emit an error if the function doesnt return a promise', () => {
         const error: sinon.SinonSpy = sinon.spy();
         cache
-          .wrap(<any>(() => 'not a promise'), 'foo')
+          .wrap((() => 'not a promise') as any, 'foo')
           .subscribe(() => '', error);
         expect(error).to.have.been.calledOnce;
       });
     });
 
     it('should throw an error when trying to cache a non observable or promise value', () => {
-      expect(() => cache.wrap(<any>'bar', 'foo')).to.throw();
+      expect(() => cache.wrap('bar' as any, 'foo')).to.throw();
     });
   });
 
@@ -156,7 +159,8 @@ describe('async cache', () => {
       }
     }
 
-    let cacheDriver: CustomCacheDriver, cache: AsyncCache;
+    let cacheDriver: CustomCacheDriver;
+    let cache: AsyncCache;
     beforeEach(() => {
       cacheDriver = new CustomCacheDriver();
       TestBed.configureTestingModule({
@@ -204,7 +208,8 @@ describe('async cache', () => {
       }
     }
 
-    let cacheDriver: CustomCacheDriver, cache: AsyncCache;
+    let cacheDriver: CustomCacheDriver;
+    let cache: AsyncCache;
     beforeEach(() => {
       cacheDriver = new CustomCacheDriver();
       TestBed.configureTestingModule({

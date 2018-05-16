@@ -16,7 +16,7 @@ export function localStorageDriverFactory(
   options: AsyncCacheOptions
 ): LocalStorageDriver {
   return options.driver instanceof LocalStorageDriver
-    ? <LocalStorageDriver>options.driver
+    ? (options.driver as LocalStorageDriver)
     : new LocalStorageDriver();
 }
 

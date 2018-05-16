@@ -12,7 +12,7 @@ export interface AsyncCacheOptionsInterface {
 export class AsyncCacheOptions implements AsyncCacheOptionsInterface {
   driver: CacheDriver = new MemoryDriver();
 
-  fromCacheAndReplay: boolean = false;
+  fromCacheAndReplay = false;
 
   constructor(overrides: AsyncCacheOptionsInterface = {}) {
     Object.assign(this, overrides);

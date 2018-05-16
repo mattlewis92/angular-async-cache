@@ -10,12 +10,12 @@ describe('memoryDriver', () => {
   });
 
   it('should get, set and delete a value', () => {
-    expect(driver.has('foo')).to.be.false;
+    expect(driver.has('foo')).to.equal(false);
     driver.set('foo', 'bar');
-    expect(driver.has('foo')).to.be.true;
+    expect(driver.has('foo')).to.equal(true);
     expect(driver.get('foo')).to.equal('bar');
     driver.delete('foo');
-    expect(driver.has('foo')).to.be.false;
+    expect(driver.has('foo')).to.equal(false);
   });
 
   it('should get all keys and then clear all values', () => {

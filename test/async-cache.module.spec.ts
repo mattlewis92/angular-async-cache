@@ -13,7 +13,7 @@ describe('async cache module', () => {
         })
       ]
     });
-    expect(TestBed.get(AsyncCacheOptions).fromCacheAndReplay).to.be.true;
+    expect(TestBed.get(AsyncCacheOptions).fromCacheAndReplay).to.equal(true);
   });
 
   it('should set the given cache in the DI', () => {
@@ -28,6 +28,6 @@ describe('async cache module', () => {
     });
     expect(TestBed.get(AsyncCacheOptions).driver).to.equal(driver);
     expect(TestBed.get(LocalStorageDriver)).to.equal(driver);
-    expect(TestBed.get(MemoryDriver)).to.be.ok;
+    expect(!!TestBed.get(MemoryDriver)).to.equal(true);
   });
 });

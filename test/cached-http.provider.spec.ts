@@ -14,9 +14,9 @@ import {
 import { HttpParams } from '@angular/common/http';
 
 describe('cachedHttp', () => {
-  let cachedHttp: CachedHttp,
-    httpMock: HttpTestingController,
-    cacheDriver: CacheDriver;
+  let cachedHttp: CachedHttp;
+  let httpMock: HttpTestingController;
+  let cacheDriver: CacheDriver;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, AsyncCacheModule.forRoot()]

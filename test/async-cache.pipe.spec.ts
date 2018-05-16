@@ -32,7 +32,8 @@ describe('asyncCache pipe', () => {
     }
   }
 
-  let cacheDriver: MemoryDriver, cache: AsyncCache;
+  let cacheDriver: MemoryDriver;
+  let cache: AsyncCache;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, AsyncCacheModule.forRoot()],

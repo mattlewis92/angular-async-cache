@@ -14,12 +14,15 @@ import {
 
 export type GetPromiseFunction = () => Promise<any>;
 
-const isPromise: Function = (fn: any) =>
-  fn && typeof fn.then === 'function' && typeof fn.catch === 'function';
+function isPromise(fn: any) {
+  return fn && typeof fn.then === 'function' && typeof fn.catch === 'function';
+}
 
-const isObservable: Function = (fn: any) => fn && fn[symbolObservable];
+function isObservable(fn: any) {
+  return fn && fn[symbolObservable];
+}
 
-const anyToObservable: Function = (fn: any) => {
+function anyToObservable(fn: any) {
   if (isObservable(fn)) {
     return fn;
   } else if (isPromise(fn)) {
@@ -27,7 +30,7 @@ const anyToObservable: Function = (fn: any) => {
   } else {
     return Observable.of(fn);
   }
-};
+}
 
 @Injectable()
 export class AsyncCache {
@@ -46,7 +49,7 @@ export class AsyncCache {
     );
 
     if (isObservable(value)) {
-      getAsyncValue = <Observable<any>>value;
+      getAsyncValue = value as Observable<any>;
     } else if (typeof value === 'function') {
       getAsyncValue = Observable.create((observer: Observer<any>) => {
         const promise: Promise<any> = value();
@@ -72,11 +75,11 @@ export class AsyncCache {
 
     return anyToObservable(options.driver.has(cacheKey)).flatMap(
       existsInCache => {
-        const cacheAndReturnAsyncValue: Function = () =>
-          getAsyncValue.flatMap(value => {
-            return anyToObservable(options.driver.set(cacheKey, value)).map(
-              () => value
-            );
+        const cacheAndReturnAsyncValue = () =>
+          getAsyncValue.flatMap(asyncValue => {
+            return anyToObservable(
+              options.driver.set(cacheKey, asyncValue)
+            ).map(() => asyncValue);
           });
 
         if (existsInCache && !options.bypassCache) {

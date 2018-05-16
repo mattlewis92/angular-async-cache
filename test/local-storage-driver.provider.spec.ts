@@ -12,12 +12,12 @@ describe('localStorageDriver', () => {
   });
 
   it('should not have a value', () => {
-    expect(driver.has('foo')).to.be.false;
+    expect(driver.has('foo')).to.equal(false);
   });
 
   it('should have a value', () => {
     localStorage.setItem('async-cache-foo', '"bar"');
-    expect(driver.has('foo')).to.be.true;
+    expect(driver.has('foo')).to.equal(true);
   });
 
   it('should get an item', () => {
@@ -33,7 +33,7 @@ describe('localStorageDriver', () => {
   it('should delete an item', () => {
     localStorage.setItem('async-cache-foo', '"bar"');
     driver.delete('foo');
-    expect(localStorage.getItem('async-cache-foo')).to.be.null;
+    expect(localStorage.getItem('async-cache-foo')).to.equal(null);
   });
 
   it('should get all cache keys', () => {
@@ -44,7 +44,7 @@ describe('localStorageDriver', () => {
   it('should clear all items in the cache', () => {
     localStorage.setItem('async-cache-foo', '"bar"');
     driver.clear();
-    expect(localStorage.getItem('async-cache-foo')).to.be.null;
+    expect(localStorage.getItem('async-cache-foo')).to.equal(null);
   });
 
   it('should be able to save and restore objects', () => {

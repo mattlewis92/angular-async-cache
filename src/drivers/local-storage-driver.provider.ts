@@ -4,7 +4,7 @@ export interface LocalStorageOptions {
   keyPrefix: string;
 }
 
-const DEFAULT_KEY_PREFIX: string = 'async-cache-';
+const DEFAULT_KEY_PREFIX = 'async-cache-';
 
 export class LocalStorageDriver implements CacheDriver {
   constructor(
@@ -39,7 +39,7 @@ export class LocalStorageDriver implements CacheDriver {
 
   keys(): AsyncValue {
     const keys: string[] = [];
-    for (let i: number = 0; i < localStorage.length; i++) {
+    for (let i = 0; i < localStorage.length; i++) {
       keys.push(localStorage.key(i));
     }
     return keys

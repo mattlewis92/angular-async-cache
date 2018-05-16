@@ -4,7 +4,7 @@ import { AsyncCache } from './async-cache.provider';
 import { AsyncCacheOptionsInterface } from './async-cache-options.provider';
 
 @Pipe({
-  name: 'asyncCache'
+  name: 'asyncCache' // tslint:disable-line pipe-naming
 })
 export class AsyncCachePipe implements PipeTransform {
   constructor(private asyncCache: AsyncCache) {}
