@@ -17,7 +17,8 @@
     "release": "npm run release:git && npm run release:npm",
     "postrelease": "npm run build:clean",
     "commitmsg": "validate-commit-msg",
-    "codecov": "cat coverage/lcov.info | codecov"
+    "codecov": "cat coverage/lcov.info | codecov",
+    "precommit": "pretty-quick --staged"
   },
   "ngPackage": {
     "lib": {
@@ -78,6 +79,8 @@
     "karma-webpack": "^2.0.1",
     "mocha": "^3.3.0",
     "ng-packagr": "^1.7.0",
+    "prettier": "^1.12.1",
+    "pretty-quick": "^1.4.1",
     "rxjs": "^5.0.1",
     "sinon": "^2.0.0",
     "sinon-chai": "^2.8.0",
