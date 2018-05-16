@@ -17,7 +17,7 @@
 
 ## About
 
-A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 4.3+ apps
+A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 6+ apps
 
 ## Demo
 

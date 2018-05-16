@@ -3,9 +3,8 @@
 import { TestBed, async } from '@angular/core/testing';
 import { expect } from 'chai';
 import * as sinon from 'sinon';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/pairwise';
-import 'rxjs/add/observable/throw';
+import { of, throwError } from 'rxjs';
+import { pairwise } from 'rxjs/operators';
 import {
   AsyncCacheModule,
   MemoryDriver,
@@ -27,7 +26,7 @@ describe('async cache', () => {
 
     describe('cached observable', () => {
       it('should return the observables value and cache it for future requests', () => {
-        cache.wrap(Observable.of('bar'), 'foo').subscribe(value => {
+        cache.wrap(of('bar'), 'foo').subscribe(value => {
           expect(value).to.equal('bar');
           expect(cacheDriver.get('foo')).to.equal('bar');
         });
@@ -35,13 +34,13 @@ describe('async cache', () => {
 
       it('should use the cached observable value', () => {
         cacheDriver.set('foo', 'bam');
-        cache.wrap(Observable.of('bar'), 'foo').subscribe(value => {
+        cache.wrap(of('bar'), 'foo').subscribe(value => {
           expect(value).to.equal('bam');
         });
       });
 
       it('should not cache the result if the observable resulted in an error', () => {
-        cache.wrap(Observable.throw('error'), 'foo').subscribe(
+        cache.wrap(throwError('error'), 'foo').subscribe(
           () => '',
           err => {
             expect(err).to.equal('error');
@@ -53,8 +52,8 @@ describe('async cache', () => {
       it('should return the cached result and then the live value', () => {
         cacheDriver.set('foo', 'bam');
         cache
-          .wrap(Observable.of('bar'), 'foo', { fromCacheAndReplay: true })
-          .pairwise()
+          .wrap(of('bar'), 'foo', { fromCacheAndReplay: true })
+          .pipe(pairwise())
           .subscribe(values => {
             expect(values).to.deep.equal(['bam', 'bar']);
           });
@@ -62,12 +61,10 @@ describe('async cache', () => {
 
       it('should allow the cache to be bypassed', () => {
         cacheDriver.set('foo', 'bam');
-        cache
-          .wrap(Observable.of('bar'), 'foo', { bypassCache: true })
-          .subscribe(value => {
-            expect(value).to.equal('bar');
-            expect(cacheDriver.get('foo')).to.equal('bar');
-          });
+        cache.wrap(of('bar'), 'foo', { bypassCache: true }).subscribe(value => {
+          expect(value).to.equal('bar');
+          expect(cacheDriver.get('foo')).to.equal('bar');
+        });
       });
     });
 
@@ -102,7 +99,7 @@ describe('async cache', () => {
           .wrap(() => Promise.resolve('bar'), 'foo', {
             fromCacheAndReplay: true
           })
-          .pairwise()
+          .pipe(pairwise())
           .subscribe(values => {
             expect(values).to.deep.equal(['bam', 'bar']);
           });
@@ -110,9 +107,7 @@ describe('async cache', () => {
 
       it('should not try and resolve the promise value if its in the cache', async(() => {
         cacheDriver.set('foo', 'bam');
-        const spy: sinon.SinonStub = sinon
-          .stub()
-          .returns(Promise.resolve('bar'));
+        const spy: sinon.SinonStub = sinon.stub().resolves('bar');
         cache.wrap(spy, 'foo').subscribe(value => {
           expect(spy).not.to.have.been.called;
         });
@@ -175,7 +170,7 @@ describe('async cache', () => {
     });
 
     it('should get the cached observable value', async(() => {
-      cache.wrap(Observable.of('bam'), 'foo').subscribe(value => {
+      cache.wrap(of('bam'), 'foo').subscribe(value => {
         expect(value).to.equal('bar');
       });
     }));
@@ -184,15 +179,15 @@ describe('async cache', () => {
   describe('observable based custom cache driver', () => {
     class CustomCacheDriver implements CacheDriver {
       has(key: string): AsyncValue {
-        return Observable.of(true);
+        return of(true);
       }
 
       get(key: string): AsyncValue {
-        return Observable.of('bar');
+        return of('bar');
       }
 
       set(key: string, value: any): AsyncValue {
-        return Observable.of();
+        return of();
       }
 
       delete(key: string): AsyncValue {
@@ -224,7 +219,7 @@ describe('async cache', () => {
     });
 
     it('should get the cached observable value', async(() => {
-      cache.wrap(Observable.of('bam'), 'foo').subscribe(value => {
+      cache.wrap(of('bam'), 'foo').subscribe(value => {
         expect(value).to.equal('bar');
       });
     }));

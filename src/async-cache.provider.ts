@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
-import 'rxjs/add/observable/fromPromise';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/observable/merge';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import symbolObservable from 'symbol-observable';
+import { Observer, Observable, isObservable, from, of, merge } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import {
   AsyncCacheOptions,
   AsyncCacheOptionsInterface
@@ -18,17 +12,13 @@ function isPromise(fn: any) {
   return fn && typeof fn.then === 'function' && typeof fn.catch === 'function';
 }
 
-function isObservable(fn: any) {
-  return fn && fn[symbolObservable];
-}
-
 function anyToObservable(fn: any) {
   if (isObservable(fn)) {
     return fn;
   } else if (isPromise(fn)) {
-    return Observable.fromPromise(fn);
+    return from(fn);
   } else {
-    return Observable.of(fn);
+    return of(fn);
   }
 }
 
@@ -73,14 +63,16 @@ export class AsyncCache {
       );
     }
 
-    return anyToObservable(options.driver.has(cacheKey)).flatMap(
-      existsInCache => {
+    return anyToObservable(options.driver.has(cacheKey)).pipe(
+      mergeMap(existsInCache => {
         const cacheAndReturnAsyncValue = () =>
-          getAsyncValue.flatMap(asyncValue => {
-            return anyToObservable(
-              options.driver.set(cacheKey, asyncValue)
-            ).map(() => asyncValue);
-          });
+          getAsyncValue.pipe(
+            mergeMap(asyncValue => {
+              return anyToObservable(
+                options.driver.set(cacheKey, asyncValue)
+              ).pipe(map(() => asyncValue));
+            })
+          );
 
         if (existsInCache && !options.bypassCache) {
           const getCachedValue: Observable<any> = anyToObservable(
@@ -88,14 +80,14 @@ export class AsyncCache {
           );
 
           if (options.fromCacheAndReplay) {
-            return Observable.merge(getCachedValue, cacheAndReturnAsyncValue());
+            return merge(getCachedValue, cacheAndReturnAsyncValue());
           } else {
             return getCachedValue;
           }
         } else {
           return cacheAndReturnAsyncValue();
         }
-      }
+      })
     );
   }
 }

@@ -1,7 +1,7 @@
 {
   "name": "angular-async-cache",
   "version": "1.0.1",
-  "description": "A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 4+ apps",
+  "description": "A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 6+ apps",
   "scripts": {
     "start": "npm run test:watch",
     "build:dist": "ng-packagr -p package.json",
@@ -32,7 +32,7 @@
   "keywords": [
     "angular2",
     "angular",
-    "angular4",
+    "angular6",
     "http",
     "cache"
   ],
@@ -43,13 +43,13 @@
   },
   "homepage": "https://github.com/mattlewis92/angular-async-cache#readme",
   "devDependencies": {
-    "@angular/common": "^4.0.0",
-    "@angular/compiler": "^4.0.0",
-    "@angular/compiler-cli": "^4.0.0",
-    "@angular/core": "^4.0.0",
-    "@angular/language-service": "^4.0.0",
-    "@angular/platform-browser": "^4.0.0",
-    "@angular/platform-browser-dynamic": "^4.0.0",
+    "@angular/common": "^6.0.2",
+    "@angular/compiler": "^6.0.2",
+    "@angular/compiler-cli": "^6.0.2",
+    "@angular/core": "^6.0.2",
+    "@angular/language-service": "^6.0.2",
+    "@angular/platform-browser": "^6.0.2",
+    "@angular/platform-browser-dynamic": "^6.0.2",
     "@compodoc/compodoc": "^1.0.0-beta.3",
     "@types/chai": "^4.0.0",
     "@types/html-webpack-plugin": "^2.11.2",
@@ -78,10 +78,10 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^3.0.0",
     "mocha": "^5.1.1",
-    "ng-packagr": "^1.7.0",
+    "ng-packagr": "^3.0.0-rc.5",
     "prettier": "^1.12.1",
     "pretty-quick": "^1.4.1",
-    "rxjs": "^5.0.1",
+    "rxjs": "^6.1.0",
     "sinon": "^5.0.7",
     "sinon-chai": "^3.0.0",
     "standard-version": "^4.0.0",
@@ -89,16 +89,16 @@
     "ts-node": "^6.0.3",
     "tslib": "^1.7.1",
     "tslint": "^5.1.0",
-    "tslint-config-mwl": "^0.2.2",
+    "tslint-config-mwl": "^0.4.1",
     "tslint-loader": "^3.5.3",
-    "typescript": "~2.4.1",
+    "typescript": "~2.7.2",
     "validate-commit-msg": "^2.8.0",
     "webpack": "^4.8.3",
     "zone.js": "^0.8.4"
   },
   "peerDependencies": {
-    "@angular/common": "^4.3.0 || ^5.0.0",
-    "@angular/core": "^4.3.0 || ^5.0.0"
+    "@angular/common": ">=6.0.0 <8.0.0",
+    "@angular/core": ">=6.0.0 <8.0.0"
   },
   "config": {
     "commitizen": {

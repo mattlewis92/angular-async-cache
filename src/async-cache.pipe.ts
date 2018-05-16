@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { AsyncCache } from './async-cache.provider';
 import { AsyncCacheOptionsInterface } from './async-cache-options.provider';
 

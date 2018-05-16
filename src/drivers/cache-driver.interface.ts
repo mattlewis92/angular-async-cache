@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 
 export type AsyncValue = Observable<any> | Promise<any> | any;
 
