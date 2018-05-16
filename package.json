@@ -2,20 +2,15 @@
   "name": "angular-async-cache",
   "version": "1.0.1",
   "description": "A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 4+ apps",
-  "main": "./bundles/angular-async-cache.umd.js",
-  "module": "./index.js",
-  "typings": "./index.d.ts",
   "scripts": {
     "start": "npm run test:watch",
-    "build:umd": "webpack --config webpack.config.umd.ts",
-    "build:ngc": "ngc -p tsconfig-ngc.json",
-    "build:dist": "npm run build:umd && npm run build:ngc",
+    "build:dist": "ng-packagr -p package.json",
     "build:clean": "del-cli dist",
     "test": "karma start --single-run && npm run build:dist && npm run build:clean",
     "test:watch": "karma start --auto-watch",
     "commit": "git-cz",
     "compodoc": "compodoc -p tsconfig-compodoc.json -d docs --disableGraph --disableCoverage --disablePrivateOrInternalSupport",
-    "copyfiles": "copyfiles package.json LICENSE README.md CHANGELOG.md dist",
+    "copyfiles": "copyfiles CHANGELOG.md dist",
     "prerelease": "npm test",
     "release:git": "standard-version && git push --follow-tags origin master",
     "release:npm": "npm run build:dist && npm run copyfiles && npm publish dist",
@@ -23,6 +18,11 @@
     "postrelease": "npm run build:clean",
     "commitmsg": "validate-commit-msg",
     "codecov": "cat coverage/lcov.info | codecov"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "src/index.ts"
+    }
   },
   "repository": {
     "type": "git",
@@ -77,6 +77,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^2.0.1",
     "mocha": "^3.3.0",
+    "ng-packagr": "^1.7.0",
     "rxjs": "^5.0.1",
     "sinon": "^2.0.0",
     "sinon-chai": "^2.8.0",
@@ -89,8 +90,6 @@
     "typescript": "~2.4.1",
     "validate-commit-msg": "^2.8.0",
     "webpack": "^3.3.0",
-    "webpack-angular-externals": "^1.0.0",
-    "webpack-rxjs-externals": "^1.0.0",
     "zone.js": "^0.8.4"
   },
   "peerDependencies": {
