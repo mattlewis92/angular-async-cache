@@ -12,8 +12,12 @@ function isPromiseLike(fn: any) {
   return fn && typeof fn.then === 'function' && typeof fn.catch === 'function';
 }
 
+function isObservableLike(fn: any) {
+  return fn && isObservable(fn);
+}
+
 function anyToObservable(fn: any) {
-  if (isObservable(fn)) {
+  if (isObservableLike(fn)) {
     return fn;
   } else if (isPromiseLike(fn)) {
     return from(fn);
@@ -38,7 +42,7 @@ export class AsyncCache {
       userOptions
     );
 
-    if (isObservable(value)) {
+    if (isObservableLike(value)) {
       getAsyncValue = value as Observable<any>;
     } else if (typeof value === 'function') {
       getAsyncValue = Observable.create((observer: Observer<any>) => {
