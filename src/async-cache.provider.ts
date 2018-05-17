@@ -8,14 +8,14 @@ import {
 
 export type GetPromiseFunction = () => Promise<any>;
 
-function isPromise(fn: any) {
+function isPromiseLike(fn: any) {
   return fn && typeof fn.then === 'function' && typeof fn.catch === 'function';
 }
 
 function anyToObservable(fn: any) {
   if (isObservable(fn)) {
     return fn;
-  } else if (isPromise(fn)) {
+  } else if (isPromiseLike(fn)) {
     return from(fn);
   } else {
     return of(fn);
@@ -43,7 +43,7 @@ export class AsyncCache {
     } else if (typeof value === 'function') {
       getAsyncValue = Observable.create((observer: Observer<any>) => {
         const promise: Promise<any> = value();
-        if (!isPromise(promise)) {
+        if (!isPromiseLike(promise)) {
           return observer.error(
             "The function you passed to the async cache didn't return a promise"
           );
