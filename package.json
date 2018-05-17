@@ -1,6 +1,6 @@
 {
   "name": "angular-async-cache",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple utility to help with caching of promises and observables to enable an easy offline first approach in angular 6+ apps",
   "scripts": {
     "start": "npm run test:watch",
