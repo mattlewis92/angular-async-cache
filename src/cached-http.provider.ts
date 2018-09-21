@@ -6,7 +6,11 @@ import { AsyncCacheOptionsInterface } from './async-cache-options.provider';
 
 export interface HttpRequestArgs {
   headers?: HttpHeaders;
-  params?: HttpParams;
+  params?:
+    | HttpParams
+    | {
+        [param: string]: string | string[];
+      };
   reportProgress?: boolean;
   responseType?: 'json';
   withCredentials?: boolean;
@@ -16,16 +20,25 @@ export interface HttpRequestArgs {
 export class CachedHttp {
   constructor(private http: HttpClient, private asyncCache: AsyncCache) {}
 
-  get(
+  get<T = any>(
     url: string,
     options?: HttpRequestArgs,
     asyncCacheOptions?: AsyncCacheOptionsInterface
-  ): Observable<any> {
-    const result$: Observable<any> = this.http.get(url, options);
+  ): Observable<T> {
+    const result$: Observable<T> = this.http.get<T>(url, options);
 
     let cacheKey: string = url;
     if (options && options.params) {
-      cacheKey += '?' + options.params.toString();
+      let qs = options.params.toString();
+      if (
+        typeof options.params === 'object' &&
+        !(options.params instanceof HttpParams)
+      ) {
+        qs = new HttpParams({
+          fromObject: options.params
+        }).toString();
+      }
+      cacheKey += '?' + qs;
     }
 
     return this.asyncCache.wrap(result$, cacheKey, asyncCacheOptions);

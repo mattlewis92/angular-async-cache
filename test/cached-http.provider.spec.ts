@@ -60,4 +60,13 @@ describe('cachedHttp', () => {
         done();
       });
   });
+
+  it('should handle query parameters as an object', done => {
+    cacheDriver.set('/foo?bar=bam', { foo: 'bar' });
+    cachedHttp.get('/foo', { params: { bar: 'bam' } }).subscribe(res => {
+      expect(res).to.deep.equal({ foo: 'bar' });
+      expect(cacheDriver.get('/foo?bar=bam')).to.equal(res);
+      done();
+    });
+  });
 });
