@@ -30,12 +30,12 @@ function anyToObservable(fn: any) {
 export class AsyncCache {
   constructor(private defaults: AsyncCacheOptions) {}
 
-  wrap(
-    value: Observable<any> | GetPromiseFunction,
+  wrap<T = any>(
+    value: Observable<T> | GetPromiseFunction,
     cacheKey: string,
     userOptions: AsyncCacheOptionsInterface = {}
-  ): Observable<any> {
-    let getAsyncValue: Observable<any>;
+  ): Observable<T> {
+    let getAsyncValue: Observable<T>;
     const options: AsyncCacheOptionsInterface = Object.assign(
       {},
       this.defaults,
@@ -43,10 +43,10 @@ export class AsyncCache {
     );
 
     if (isObservableLike(value)) {
-      getAsyncValue = value as Observable<any>;
+      getAsyncValue = value as Observable<T>;
     } else if (typeof value === 'function') {
-      getAsyncValue = Observable.create((observer: Observer<any>) => {
-        const promise: Promise<any> = value();
+      getAsyncValue = Observable.create((observer: Observer<T>) => {
+        const promise: Promise<T> = value();
         if (!isPromiseLike(promise)) {
           return observer.error(
             "The function you passed to the async cache didn't return a promise"
@@ -79,7 +79,7 @@ export class AsyncCache {
           );
 
         if (existsInCache && !options.bypassCache) {
-          const getCachedValue: Observable<any> = anyToObservable(
+          const getCachedValue: Observable<T> = anyToObservable(
             options.driver.get(cacheKey)
           );
 
