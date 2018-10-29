@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observer, Observable, isObservable, from, of, merge } from 'rxjs';
+import { Observer, Observable, isObservable, from, of, concat } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
   AsyncCacheOptions,
@@ -84,7 +84,7 @@ export class AsyncCache {
           );
 
           if (options.fromCacheAndReplay) {
-            return merge(getCachedValue, cacheAndReturnAsyncValue());
+            return concat(getCachedValue, cacheAndReturnAsyncValue());
           } else {
             return getCachedValue;
           }
