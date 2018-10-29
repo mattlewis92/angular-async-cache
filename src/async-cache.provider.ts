@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observer, Observable, isObservable, from, of, concat } from 'rxjs';
+import { Observable, isObservable, from, of, concat, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import {
   AsyncCacheOptions,
@@ -45,22 +45,17 @@ export class AsyncCache {
     if (isObservableLike(value)) {
       getAsyncValue = value as Observable<T>;
     } else if (typeof value === 'function') {
-      getAsyncValue = Observable.create((observer: Observer<T>) => {
-        const promise: Promise<T> = value();
-        if (!isPromiseLike(promise)) {
-          return observer.error(
-            "The function you passed to the async cache didn't return a promise"
-          );
-        }
-        promise
-          .then(result => {
-            observer.next(result);
-            observer.complete();
-          })
-          .catch(err => {
-            observer.error(err);
-          });
-      });
+      getAsyncValue = of(value).pipe(
+        switchMap(promiseFactory => {
+          const promise: Promise<T> = promiseFactory();
+          if (!isPromiseLike(promise)) {
+            return throwError(
+              "The function you passed to the async cache didn't return a promise"
+            );
+          }
+          return from(promise);
+        })
+      );
     } else {
       throw new Error(
         'Value can only be an observable or a function that returns a promise'
