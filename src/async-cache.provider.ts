@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observer, Observable, isObservable, from, of, merge } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import {
   AsyncCacheOptions,
   AsyncCacheOptionsInterface
@@ -68,10 +68,10 @@ export class AsyncCache {
     }
 
     return anyToObservable(options.driver.has(cacheKey)).pipe(
-      mergeMap(existsInCache => {
+      switchMap(existsInCache => {
         const cacheAndReturnAsyncValue = () =>
           getAsyncValue.pipe(
-            mergeMap(asyncValue => {
+            switchMap(asyncValue => {
               return anyToObservable(
                 options.driver.set(cacheKey, asyncValue)
               ).pipe(map(() => asyncValue));
