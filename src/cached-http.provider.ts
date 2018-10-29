@@ -16,6 +16,27 @@ export interface HttpRequestArgs {
   withCredentials?: boolean;
 }
 
+function getCacheKey(
+  method: string,
+  url: string,
+  options?: HttpRequestArgs
+): string {
+  let cacheKey = `${method}-${url}`;
+  if (options && options.params) {
+    let qs = options.params.toString();
+    if (
+      typeof options.params === 'object' &&
+      !(options.params instanceof HttpParams)
+    ) {
+      qs = new HttpParams({
+        fromObject: options.params
+      }).toString();
+    }
+    cacheKey += '?' + qs;
+  }
+  return cacheKey;
+}
+
 @Injectable()
 export class CachedHttp {
   constructor(private http: HttpClient, private asyncCache: AsyncCache) {}
@@ -25,22 +46,22 @@ export class CachedHttp {
     options?: HttpRequestArgs,
     asyncCacheOptions?: AsyncCacheOptionsInterface
   ): Observable<T> {
-    const result$: Observable<T> = this.http.get<T>(url, options);
+    return this.asyncCache.wrap(
+      this.http.get<T>(url, options),
+      getCacheKey('GET', url, options),
+      asyncCacheOptions
+    );
+  }
 
-    let cacheKey: string = url;
-    if (options && options.params) {
-      let qs = options.params.toString();
-      if (
-        typeof options.params === 'object' &&
-        !(options.params instanceof HttpParams)
-      ) {
-        qs = new HttpParams({
-          fromObject: options.params
-        }).toString();
-      }
-      cacheKey += '?' + qs;
-    }
-
-    return this.asyncCache.wrap(result$, cacheKey, asyncCacheOptions);
+  head<T = any>(
+    url: string,
+    options?: HttpRequestArgs,
+    asyncCacheOptions?: AsyncCacheOptionsInterface
+  ): Observable<T> {
+    return this.asyncCache.wrap(
+      this.http.head<T>(url, options),
+      getCacheKey('HEAD', url, options),
+      asyncCacheOptions
+    );
   }
 }

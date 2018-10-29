@@ -11,7 +11,7 @@ import {
   AsyncCacheOptions,
   CacheDriver
 } from '../src';
-import { HttpParams } from '@angular/common/http';
+import { HttpParams, HttpRequest } from '@angular/common/http';
 
 describe('cachedHttp', () => {
   let cachedHttp: CachedHttp;
@@ -33,7 +33,7 @@ describe('cachedHttp', () => {
   it('should fetch and cache the result from the api', done => {
     cachedHttp.get('/foo').subscribe(res => {
       expect(res).to.deep.equal({ foo: 'bar' });
-      expect(cacheDriver.get('/foo')).to.equal(res);
+      expect(cacheDriver.get('GET-/foo')).to.equal(res);
       done();
     });
     const req: TestRequest = httpMock.expectOne('/foo');
@@ -42,31 +42,44 @@ describe('cachedHttp', () => {
   });
 
   it('should use the cached result', done => {
-    cacheDriver.set('/foo', { foo: 'bar' });
+    cacheDriver.set('GET-/foo', { foo: 'bar' });
     cachedHttp.get('/foo').subscribe(res => {
       expect(res).to.deep.equal({ foo: 'bar' });
-      expect(cacheDriver.get('/foo')).to.equal(res);
+      expect(cacheDriver.get('GET-/foo')).to.equal(res);
       done();
     });
   });
 
   it('should handle query parameters', done => {
-    cacheDriver.set('/foo?bar=bam', { foo: 'bar' });
+    cacheDriver.set('GET-/foo?bar=bam', { foo: 'bar' });
     cachedHttp
       .get('/foo', { params: new HttpParams().set('bar', 'bam') })
       .subscribe(res => {
         expect(res).to.deep.equal({ foo: 'bar' });
-        expect(cacheDriver.get('/foo?bar=bam')).to.equal(res);
+        expect(cacheDriver.get('GET-/foo?bar=bam')).to.equal(res);
         done();
       });
   });
 
   it('should handle query parameters as an object', done => {
-    cacheDriver.set('/foo?bar=bam', { foo: 'bar' });
+    cacheDriver.set('GET-/foo?bar=bam', { foo: 'bar' });
     cachedHttp.get('/foo', { params: { bar: 'bam' } }).subscribe(res => {
       expect(res).to.deep.equal({ foo: 'bar' });
-      expect(cacheDriver.get('/foo?bar=bam')).to.equal(res);
+      expect(cacheDriver.get('GET-/foo?bar=bam')).to.equal(res);
       done();
     });
+  });
+
+  it('should handle head requests', done => {
+    cachedHttp.head('/foo').subscribe(res => {
+      expect(res).to.equal('');
+      expect(cacheDriver.get('HEAD-/foo')).to.equal(res);
+      done();
+    });
+    const req: TestRequest = httpMock.expectOne(
+      new HttpRequest('HEAD', '/foo')
+    );
+    expect(req.request.method).to.equal('HEAD');
+    req.flush('');
   });
 });
