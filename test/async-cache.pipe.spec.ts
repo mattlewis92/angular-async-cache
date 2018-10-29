@@ -8,8 +8,9 @@ import { AsyncCacheOptionsInterface } from '../src/async-cache-options.provider'
 
 describe('asyncCache pipe', () => {
   @Component({
+    selector: 'mwl-test-cmp',
     template: `
-      <div *ngFor="let value of asyncValue | asyncCache:'test':cacheOptions | async">
+      <div *ngFor="let value of asyncValue | asyncCache:'test':cacheOptions | async; trackBy:trackByIndex">
         {{ value }}
       </div>
     `
@@ -20,6 +21,8 @@ describe('asyncCache pipe', () => {
     cacheOptions: AsyncCacheOptionsInterface = {
       fromCacheAndReplay: true
     };
+
+    trackByIndex = index => index;
 
     constructor() {
       this.asyncValue = Observable.create((observer: Observer<string[]>) => {
