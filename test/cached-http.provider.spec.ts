@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { expect } from 'chai';
+import * as sinon from 'sinon';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -81,5 +82,26 @@ describe('cachedHttp', () => {
     );
     expect(req.request.method).to.equal('HEAD');
     req.flush('');
+  });
+
+  it('should complete the observable on a cold cache', () => {
+    const complete = sinon.spy();
+    cachedHttp.get('/foo').subscribe({
+      complete
+    });
+    const req = httpMock.expectOne('/foo');
+    req.flush({ foo: 'bar' });
+    expect(complete.callCount).to.equal(1);
+  });
+
+  it('should complete the observable on a warm cache', () => {
+    cacheDriver.set('GET-/foo', { foo: 'bar' });
+    const complete = sinon.spy();
+    cachedHttp.get('/foo', {}, { fromCacheAndReplay: true }).subscribe({
+      complete
+    });
+    const req = httpMock.expectOne('/foo');
+    req.flush({ foo: 'bar' });
+    expect(complete.callCount).to.equal(1);
   });
 });
